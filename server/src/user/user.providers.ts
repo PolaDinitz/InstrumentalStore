@@ -1,4 +1,3 @@
-import { connect } from 'http2';
 import { Connection } from 'mongoose';
 import { UserSchema } from './user.schema';
 
