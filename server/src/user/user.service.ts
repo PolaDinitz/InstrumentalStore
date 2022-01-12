@@ -35,21 +35,13 @@ export class UserService {
             pass = await this.hashPassword(updateUserDto.password);
         }
         const newUser = {
-            email: oldUser.email,
             password: pass,
             firstName: updateUserDto.firstName || oldUser.firstName,
             lastName: updateUserDto.lastName || oldUser.lastName,
             role: updateUserDto.role || oldUser.role.toString(),
-
         }
 
-        return this.userModel.findOneAndUpdate( {
-            email: oldUser.email,
-            password: oldUser.password,
-            firstName: oldUser.firstName,
-            lastName: oldUser.lastName,
-            role: oldUser.role
-        }, newUser);
+        return this.userModel.findByIdAndUpdate(id, newUser);
     }
 
     public async deleteUser(id : string) {

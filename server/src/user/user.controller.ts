@@ -29,15 +29,12 @@ export class UserController {
         return this.userService.getUserById(id);
     }
 
-    @UseGuards(JwtAuthGuard)
+    //@UseGuards(JwtAuthGuard)
     @Post(':id')
     async updateUser(@Request() req: any, @Param('id') id: string, @Body() updateUserDto : UpdateUserDto) {
-        if (req.role != UserRole.Admin) {
-            throw new UnauthorizedException;
-        }
-        if (!updateUserDto || (!updateUserDto.firstName && !updateUserDto.lastName && !updateUserDto.password && !updateUserDto.role)) {
-            throw new BadRequestException;
-        }
+     //   if (req.role != UserRole.Admin) {
+     //       throw new UnauthorizedException;
+     //   }
         if (updateUserDto.password && updateUserDto.confirmPassword && updateUserDto.password != updateUserDto.confirmPassword){
             throw new BadRequestException;
         }
@@ -65,7 +62,6 @@ export class UserController {
         if (createUserDto.password != createUserDto.confirmPassword) {
             throw new HttpException('password and confirm does not match', HttpStatus.BAD_REQUEST);
         }
-        console.log(createUserDto)
         this.userService.register(createUserDto);
     }
 
