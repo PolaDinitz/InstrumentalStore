@@ -3,7 +3,7 @@ import { Model } from 'mongoose';
 import { User } from './user.interface';
 import { CreateUserDto } from './dtos/create-user.dto';
 import * as bcrypt from 'bcrypt';
-import { Role } from '../common/role.enum';
+import { Role } from '../authorization/role.enum';
 import { UpdateUserDto } from './dtos/update-user.dto';
 
 @Injectable()

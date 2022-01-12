@@ -1,11 +1,11 @@
-import { Controller, Get, Post, Body, Param, HttpException, HttpStatus, UseGuards, Request, UnauthorizedException, BadRequestException, Delete, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, HttpException, HttpStatus, UseGuards, Request, UnauthorizedException, Delete, Put } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dtos/create-user.dto';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { Role } from '../common/role.enum';
+import { JwtAuthGuard } from '../authentication/jwt-auth.guard';
+import { Role } from '../authorization/role.enum';
 import { UpdateUserDto } from './dtos/update-user.dto';
-import { Roles } from '../common/roles.decorator';
-import { RolesGuard } from '../auth/roles.guard';
+import { Roles } from '../authorization/roles.decorator';
+import { RolesGuard } from '../authorization/roles.guard';
 
 @Controller('user')
 export class UserController {

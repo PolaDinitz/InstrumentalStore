@@ -1,5 +1,5 @@
 import { IsOptional, IsEnum } from "class-validator";
-import { Role } from '../../common/role.enum';
+import { Role } from '../../authorization/role.enum';
 
 
 
