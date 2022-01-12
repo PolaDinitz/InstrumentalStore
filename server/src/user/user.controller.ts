@@ -1,11 +1,9 @@
-import { Controller, Get, Post, Body, Param, HttpException, HttpStatus, UseGuards, Request, UnauthorizedException, BadRequestException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, HttpException, HttpStatus, UseGuards, Request, UnauthorizedException, BadRequestException, Delete, Put } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { UserRole } from './user.schema';
-import { JwtService } from '@nestjs/jwt';
 import { UpdateUserDto } from './dtos/update-user.dto';
-import { LocalAuthGuard } from 'src/auth/local-auth.guard';
 
 @Controller('user')
 export class UserController {
@@ -32,7 +30,7 @@ export class UserController {
     }
 
     @UseGuards(JwtAuthGuard)
-    @Post('/update/:id')
+    @Post(':id')
     async updateUser(@Request() req: any, @Param('id') id: string, @Body() updateUserDto : UpdateUserDto) {
         if (req.role != UserRole.Admin) {
             throw new UnauthorizedException;
@@ -50,7 +48,7 @@ export class UserController {
     }
 
     @UseGuards(JwtAuthGuard)
-    @Post('/delete/:id')
+    @Delete(':id')
     async deleteUser(@Request() req: any, @Param('id') id: string) {
         if (req.role != UserRole.Admin) {
             throw new UnauthorizedException;
@@ -58,7 +56,7 @@ export class UserController {
         return this.userService.deleteUser(id);
     }
 
-    @Post()
+    @Put()
     async register(@Body() createUserDto: CreateUserDto) {
         const user = await this.userService.getUserByEmail(createUserDto.email);
         if (user){

@@ -1,4 +1,4 @@
-import { IsOptional } from "class-validator";
+import { IsOptional, IsEnum } from "class-validator";
 import { UserRole } from "../user.schema";
 
 
@@ -17,6 +17,7 @@ export class UpdateUserDto {
     @IsOptional()
     confirmPassword: string;
     
+    @IsEnum(UserRole)
     @IsOptional()
-    role: UserRole;
+    role: string;
 }
