@@ -29,18 +29,17 @@ export class UserController {
         return this.userService.getUserById(id);
     }
 
-    //@UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard)
     @Post(':id')
     async updateUser(@Request() req: any, @Param('id') id: string, @Body() updateUserDto : UpdateUserDto) {
-     //   if (req.role != UserRole.Admin) {
-     //       throw new UnauthorizedException;
-     //   }
+        if (req.role != UserRole.Admin) {
+            throw new UnauthorizedException;
+        }
         if (updateUserDto.password && updateUserDto.confirmPassword && updateUserDto.password != updateUserDto.confirmPassword){
-            throw new BadRequestException;
+            throw new HttpException('password and confirm does not match', HttpStatus.BAD_REQUEST);
         }
         if ((updateUserDto.password && !updateUserDto.confirmPassword) || (!updateUserDto.password) && (updateUserDto.confirmPassword)){
-            throw new BadRequestException;
-        }
+            throw new HttpException('password and confirm does not match', HttpStatus.BAD_REQUEST);        }
         return this.userService.updateUser(id, updateUserDto);
     }
 
@@ -57,7 +56,7 @@ export class UserController {
     async register(@Body() createUserDto: CreateUserDto) {
         const user = await this.userService.getUserByEmail(createUserDto.email);
         if (user){
-            throw new BadRequestException;
+            throw new HttpException('email already exists', HttpStatus.BAD_REQUEST);        
         }
         if (createUserDto.password != createUserDto.confirmPassword) {
             throw new HttpException('password and confirm does not match', HttpStatus.BAD_REQUEST);
