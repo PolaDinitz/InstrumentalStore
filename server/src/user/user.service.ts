@@ -1,8 +1,10 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, BadRequestException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { User } from './user.interface';
 import { CreateUserDto } from './dtos/create-user.dto';
 import * as bcrypt from 'bcrypt';
+import { UserRole } from './user.schema';
+import { UpdateUserDto } from './dtos/update-user.dto';
 
 @Injectable()
 export class UserService {
@@ -25,14 +27,43 @@ export class UserService {
         return this.userModel.findOne({ 'email': email}).exec();
     }
 
+    public async updateUser(id: string, updateUserDto: UpdateUserDto) {
+        const oldUser = await this.getUserById(id);
+        
+        let pass = oldUser.password;
+        if (updateUserDto.password) {
+            pass = await this.hashPassword(updateUserDto.password);
+        }
+        const newUser = {
+            email: oldUser.email,
+            password: pass,
+            firstName: updateUserDto.firstName || oldUser.firstName,
+            lastName: updateUserDto.lastName || oldUser.lastName,
+            role: updateUserDto.role || oldUser.role.toString(),
+
+        }
+
+        return this.userModel.findOneAndUpdate( {
+            email: oldUser.email,
+            password: oldUser.password,
+            firstName: oldUser.firstName,
+            lastName: oldUser.lastName,
+            role: oldUser.role
+        }, newUser);
+    }
+
+    public async deleteUser(id : string) {
+        return this.userModel.findOneAndDelete({ "id": id}).exec();
+    }
+
     public async register(createUserDto: CreateUserDto) :Promise<User>{
-        // make sure email not exist
         const password = await this.hashPassword(createUserDto.password)
         const newUser = new this.userModel({
             email: createUserDto.email,
             firstName: createUserDto.firstName,
             lastName: createUserDto.lastName,
-            password: password
+            password: password,
+            role: UserRole.User
         });
         return newUser.save();
     }
