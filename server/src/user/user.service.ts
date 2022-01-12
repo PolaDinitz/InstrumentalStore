@@ -3,7 +3,7 @@ import { Model } from 'mongoose';
 import { User } from './user.interface';
 import { CreateUserDto } from './dtos/create-user.dto';
 import * as bcrypt from 'bcrypt';
-import { UserRole } from './user.schema';
+import { Role } from '../common/role.enum';
 import { UpdateUserDto } from './dtos/update-user.dto';
 
 @Injectable()
@@ -55,7 +55,7 @@ export class UserService {
             firstName: createUserDto.firstName,
             lastName: createUserDto.lastName,
             password: password,
-            role: UserRole.User
+            role: Role.User
         });
         return newUser.save();
     }
