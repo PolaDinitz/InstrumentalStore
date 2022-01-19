@@ -2,8 +2,13 @@ import { Avatar, TextField, Paper, InputAdornment, Button, Typography, Link } fr
 import { Email as EmailIcon, Password as PasswordIcon, Login as LoginIcon } from '@mui/icons-material';
 import React, { ChangeEvent, useState } from 'react'
 import { Box } from '@mui/system';
+import { connect } from 'react-redux';
+import { userActions } from '../redux/actions/user.actions';
+import { InputError } from '../redux/models/inputError.model';
+import Validator from '../utils/validator'
+import InputErrorMessage from '../enums/input-error-message';
 
-const Login = () => {
+const Login = (props: any) => {
     const paperStyle = { 
         padding: 20, 
         minHeight: '300px', 
@@ -12,13 +17,44 @@ const Login = () => {
         borderRadius: "30px"
     }
 
+    const errorInitialState = {
+        email: {} as InputError,
+        password: {} as InputError
+    }
+
     const email = useFormInput('');
     const password = useFormInput('');
-    const [error, setError] = useState(null);
+    const [error, setError] = useState(errorInitialState);
     const [loading, setLoading] = useState(false);
 
-    const handleLogin = () => {
-        setLoading(true);
+    const handleLogin = (event: any) => {
+        event.preventDefault();
+        if (validateLoginForm()) {
+            props.dispatch(userActions.login(email.value, password.value));
+        } else {
+            // TODO
+        }
+    }
+
+    const validateLoginForm = (): boolean => {
+        let isValid = true;
+        let inputErrors = {...errorInitialState};
+        if (!Validator.isEmailValid(email.value)) {
+            inputErrors.email = {
+                hasError: true,
+                errorMessage: InputErrorMessage.EMAIL_INPUT_ERROR
+            }
+            isValid = false;
+        }
+        if (!Validator.isPasswordValid(password.value)) {
+            inputErrors.password = {
+                hasError: true,
+                errorMessage: InputErrorMessage.PASSWORD_INPUT_ERROR
+            }
+            isValid = false;
+        }
+        setError(inputErrors);
+        return isValid;
     }
 
     return (
@@ -42,6 +78,8 @@ const Login = () => {
                     fullWidth 
                     required
                     sx={{margin: "10px"}}
+                    error={error && error.email?.hasError}
+                    helperText={error?.email?.hasError ? error.email.errorMessage : ''}
                 />
                 <TextField
                     {...password}
@@ -57,6 +95,8 @@ const Login = () => {
                     fullWidth
                     required
                     sx={{margin: "10px"}}
+                    error={error && error.password?.hasError}
+                    helperText={error?.password?.hasError ? error.password.errorMessage : ''}
                 />
                 <Button 
                     disabled={loading} 
@@ -66,7 +106,7 @@ const Login = () => {
                     onClick={handleLogin}>{loading ? 'Loging...' : 'Login'}
                 </Button>
                 <Box>
-                    {error && <small style={{ color: 'red' }}>{error}</small>}
+                    {/* {error && <small style={{ color: 'red' }}>{error}</small>} */}
                 </Box>
                 <Typography textAlign="center"> 
                     Don't have an account?
@@ -90,4 +130,10 @@ const useFormInput = (initialValue: String) => {
     }
 }
 
-export default Login;
+const mapStateToProps = (state: any) => {
+    return {
+        userState: state.userState
+    }
+}
+  
+export default connect(mapStateToProps)(Login);

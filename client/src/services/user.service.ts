@@ -26,7 +26,7 @@ const handleResponse = (response: any) => {
         if (!response.ok) {
             if (response.status === HttpStatusCode.UNAUTHORIZED) {
                 logout();
-                location.reload();
+                window.location.reload();
             }
 
             const error = (data && data.message) || response.statusText;
