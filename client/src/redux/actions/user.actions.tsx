@@ -2,14 +2,14 @@ import { userActionTypes } from '../action-types/user.action-types';
 import { userService } from '../../services/user.service';
 import { history } from '../helpers/history';
 
-const loginRequestAction = (user: {email: String}) => { return { type: userActionTypes.LOGIN_REQUEST, user } }
+const loginRequestAction = () => { return { type: userActionTypes.LOGIN_REQUEST } }
 const loginSuccessAction = (user: any) => { return { type: userActionTypes.LOGIN_SUCCESS, user } }
 const loginFailedAction = (error: any) => { return { type: userActionTypes.LOGIN_FAILED, error } }
 const logoutAction = () => { return { type: userActionTypes.LOGOUT }; }
 
 const login = (email: String, password: String) =>{
     return (dispatch: any) => {
-        dispatch(loginRequestAction({ email }));
+        dispatch(loginRequestAction());
         userService.login(email, password)
             .then(
                 (user: any)=> { 
