@@ -1,10 +1,28 @@
 import { userActionTypes } from '../action-types/user.action-types';
+import { User } from '../models/user.model';
 
-let user = JSON.parse(localStorage.getItem('user') || '{}');
-const initialState = user !== '{}' ? { loggedIn: true, user } : {loggedIn: false};
+interface UserState {
+    user: User | null,
+    loggedIn: boolean
+}
+
+let initialState: UserState = {
+    user: null,
+    loggedIn: false
+};
+
+const userInLocalStorage = localStorage.getItem('user');
+if (userInLocalStorage) {
+    initialState = {
+        user: JSON.parse(userInLocalStorage),
+        loggedIn: true
+    }
+}
 
 const reducer = (state = initialState, action: any) => {
-    switch (action.type) {
+    const { type, payload } = action;
+
+    switch (type) {
         case userActionTypes.LOGIN_REQUEST:
             return {
                 ...state
@@ -13,16 +31,18 @@ const reducer = (state = initialState, action: any) => {
             return {
                 ...state,
                 loggedIn: true,
-                user: action.user
+                user: payload.user
             };
         case userActionTypes.LOGIN_FAILED:
             return {
-                ...state
+                ...state,
+                user: null
             };
         case userActionTypes.LOGOUT:
             return {
                 ...state,
-                loggedIn: false
+                loggedIn: false,
+                user: null
             };
         default:
             return state

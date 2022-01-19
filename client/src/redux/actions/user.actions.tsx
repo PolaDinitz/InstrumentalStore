@@ -3,9 +3,9 @@ import { userService } from '../../services/user.service';
 import { history } from '../helpers/history';
 
 const loginRequestAction = () => { return { type: userActionTypes.LOGIN_REQUEST } }
-const loginSuccessAction = (user: any) => { return { type: userActionTypes.LOGIN_SUCCESS, user } }
-const loginFailedAction = (error: any) => { return { type: userActionTypes.LOGIN_FAILED, error } }
-const logoutAction = () => { return { type: userActionTypes.LOGOUT }; }
+const loginSuccessAction = (user: any) => { return { type: userActionTypes.LOGIN_SUCCESS, payload: user } }
+const loginFailedAction = (error: any) => { return { type: userActionTypes.LOGIN_FAILED, payload: error } }
+const logoutAction = () => { return { type: userActionTypes.LOGOUT } }
 
 const login = (email: String, password: String) =>{
     return (dispatch: any) => {

@@ -1,8 +1,6 @@
 import { Avatar, TextField, Paper, InputAdornment, Button, Typography, Link } from '@mui/material';
-import EmailIcon from '@mui/icons-material/Email';
-import LoginIcon from '@mui/icons-material/Login';
-import PasswordIcon from '@mui/icons-material/Password';
-import React, { useState } from 'react'
+import { Email as EmailIcon, Password as PasswordIcon, Login as LoginIcon } from '@mui/icons-material';
+import React, { ChangeEvent, useState } from 'react'
 import { Box } from '@mui/system';
 
 const Login = () => {
@@ -65,7 +63,8 @@ const Login = () => {
                     sx={{margin: "10px"}} 
                     type="submit" 
                     variant="contained"
-                    onClick={handleLogin}>{loading ? 'Loging...' : 'Login'} </Button>
+                    onClick={handleLogin}>{loading ? 'Loging...' : 'Login'}
+                </Button>
                 <Box>
                     {error && <small style={{ color: 'red' }}>{error}</small>}
                 </Box>
@@ -81,8 +80,8 @@ const Login = () => {
 const useFormInput = (initialValue: String) => {
     const [value, setValue] = useState(initialValue);
 
-    const handleChange = (e: any) => {
-        setValue(e.target.value);
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setValue(event.target.value);
     }
 
     return {
