@@ -1,16 +1,11 @@
 import { config } from "../config/config"
+import axios from "axios";
 import HttpStatusCode from "../enums/http-status-codes";
 
 const login = (email: String, password: String) => {
-    const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-    };
-
-    return fetch(`${config.apiUrl}/auth/login`, requestOptions)
+    return axios.post(`${config.apiUrl}/auth/login`, { email, password})
         .then(handleResponse)
-        .then(user => {
+        .then((user) => {
             localStorage.setItem('user', JSON.stringify(user));
             return user;
     });

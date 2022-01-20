@@ -1,10 +1,12 @@
 import { userActionTypes } from '../action-types/user.action-types';
 import { userService } from '../../services/user.service';
 import { history } from '../helpers/history';
+import { toast } from 'react-toastify';
+import { User } from '../models/user.model';
 
 const loginRequestAction = () => { return { type: userActionTypes.LOGIN_REQUEST } }
-const loginSuccessAction = (user: any) => { return { type: userActionTypes.LOGIN_SUCCESS, payload: user } }
-const loginFailedAction = (error: any) => { return { type: userActionTypes.LOGIN_FAILED, payload: error } }
+const loginSuccessAction = (user: User) => { return { type: userActionTypes.LOGIN_SUCCESS, payload: user } }
+const loginFailedAction = (error: Error) => { return { type: userActionTypes.LOGIN_FAILED, payload: error } }
 const logoutAction = () => { return { type: userActionTypes.LOGOUT } }
 
 const login = (email: String, password: String) =>{
@@ -12,12 +14,13 @@ const login = (email: String, password: String) =>{
         dispatch(loginRequestAction());
         userService.login(email, password)
             .then(
-                (user: any)=> { 
+                (user: User)=> { 
                     dispatch(loginSuccessAction(user));
                     history.push('/');
                 },
-                (error: any) => {
+                (error: Error) => {
                     dispatch(loginFailedAction(error));
+                    toast.error(error.message);
                 }
             );
     };

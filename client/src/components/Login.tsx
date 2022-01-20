@@ -7,6 +7,8 @@ import { userActions } from '../redux/actions/user.actions';
 import { InputError } from '../redux/models/inputError.model';
 import Validator from '../utils/validator'
 import InputErrorMessage from '../enums/input-error-message';
+import { ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = (props: any) => {
     const paperStyle = { 
@@ -30,9 +32,7 @@ const Login = (props: any) => {
     const handleLogin = (event: any) => {
         event.preventDefault();
         if (validateLoginForm()) {
-            props.dispatch(userActions.login(email.value, password.value));
-        } else {
-            // TODO
+            props.login(email.value, password.value);
         }
     }
 
@@ -135,5 +135,10 @@ const mapStateToProps = (state: any) => {
         userState: state.userState
     }
 }
+
+const mapDispatchToProps = (dispatch: any) => ({
+    login: (email: String, password: String) => dispatch(userActions.login(email, password)),
+});
   
-export default connect(mapStateToProps)(Login);
+  
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

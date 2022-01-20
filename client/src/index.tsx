@@ -5,6 +5,7 @@ import App from './App';
 import { Provider } from 'react-redux';
 import reportWebVitals from './reportWebVitals';
 import configureStore from './redux/helpers/store';
+import { ToastContainer } from 'react-toastify';
 
 const store = configureStore();
 
@@ -12,6 +13,7 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <App />
+      <ToastContainer autoClose={3000} theme='colored'/>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')
