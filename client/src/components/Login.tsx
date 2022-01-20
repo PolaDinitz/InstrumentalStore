@@ -7,7 +7,6 @@ import { userActions } from '../redux/actions/user.actions';
 import { InputError } from '../redux/models/inputError.model';
 import Validator from '../utils/validator'
 import InputErrorMessage from '../enums/input-error-message';
-import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
 const Login = (props: any) => {

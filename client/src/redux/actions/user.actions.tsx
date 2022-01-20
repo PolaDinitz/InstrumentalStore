@@ -13,16 +13,15 @@ const login = (email: String, password: String) =>{
     return (dispatch: any) => {
         dispatch(loginRequestAction());
         userService.login(email, password)
-            .then(
-                (user: User)=> { 
-                    dispatch(loginSuccessAction(user));
-                    history.push('/');
-                },
-                (error: Error) => {
-                    dispatch(loginFailedAction(error));
-                    toast.error(error.message);
-                }
-            );
+            .then((user: User)=> { 
+                dispatch(loginSuccessAction(user));
+                toast.success("Login Successfully");
+                history.push('/');
+            })
+            .catch((error: Error) => {
+                dispatch(loginFailedAction(error));
+                toast.error(error.message);
+            });
     };
 }
 
