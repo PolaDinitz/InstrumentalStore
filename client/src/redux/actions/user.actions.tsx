@@ -26,8 +26,11 @@ const login = (email: String, password: String) =>{
 }
 
 const logout = () => {
-    userService.logout();
-    return logoutAction();
+    return (dispatch: any) => {
+        userService.logout();
+        dispatch(logoutAction());
+        toast.success("Logout Successfully");
+    }
 }
 
 export const userActions = {
