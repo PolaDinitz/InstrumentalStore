@@ -2,14 +2,18 @@ import { Avatar, TextField, Paper, InputAdornment, Button, Typography, Link } fr
 import { Email as EmailIcon, Password as PasswordIcon, Login as LoginIcon } from '@mui/icons-material';
 import React, { ChangeEvent, useState } from 'react'
 import { Box } from '@mui/system';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { userActions } from '../redux/actions/user.actions';
 import { InputError } from '../redux/models/inputError.model';
 import Validator from '../utils/validator'
 import InputErrorMessage from '../enums/input-error-message';
 import "react-toastify/dist/ReactToastify.css";
+import { AppDispatch, RootState } from '../redux/helpers/store';
 
-const Login = (props: any) => {
+const Login = () => {
+    const dispatch = useDispatch<AppDispatch>()
+    const isLoggedIn = useSelector((state: RootState) => state.userState.loggedIn);
+
     const paperStyle = { 
         padding: 20, 
         minHeight: '10px', 
@@ -30,13 +34,13 @@ const Login = (props: any) => {
     const handleLogin = (event: any) => {
         event.preventDefault();
         if (validateLoginForm()) {
-            props.login(email.value, password.value);
+            dispatch(userActions.login(email.value, password.value));
         }
     }
 
     const handleLogout = (event: any) => {
         event.preventDefault();
-        props.logout();
+        dispatch(userActions.logout());
     }
 
     const validateLoginForm = (): boolean => {
@@ -62,7 +66,7 @@ const Login = (props: any) => {
 
     return (
         <Paper elevation={10} style={paperStyle}>
-            {!props.userState.loggedIn &&
+            {!isLoggedIn &&
                 <Box sx={{display: "flex", flexDirection: "column", alignItems: "center", alignContent: "space-evenly", justifyContent: "space-around"}}>
                     <Box sx={{display: "flex", flexDirection: "column", alignItems: "center"}}>
                         <Avatar sx={{ bgcolor: 'deepskyblue', width: 56, height: 56 }}><LoginIcon/></Avatar>
@@ -109,16 +113,13 @@ const Login = (props: any) => {
                         onClick={handleLogin}>
                             Login
                     </Button>
-                    <Box>
-                        {/* {error && <small style={{ color: 'red' }}>{error}</small>} */}
-                    </Box>
                     <Typography textAlign="center"> 
                         Don't have an account?
                         <Link href="#" underline="none"> Register</Link>
                     </Typography>
                 </Box>
             }
-            {props.userState.loggedIn &&
+            {isLoggedIn &&
                 <Box>
                     <Typography textAlign="center"> 
                         You are already logged in, do you want to logout?
@@ -149,15 +150,4 @@ const useFormInput = (initialValue: String) => {
     }
 }
 
-const mapStateToProps = (state: any) => {
-    return {
-        userState: state.userState
-    }
-}
-
-const mapDispatchToProps = (dispatch: any) => ({
-    login: (email: String, password: String) => dispatch(userActions.login(email, password)),
-    logout: () => dispatch(userActions.logout())
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default Login;

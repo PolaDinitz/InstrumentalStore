@@ -4,10 +4,8 @@ import './index.css';
 import App from './App';
 import { Provider } from 'react-redux';
 import reportWebVitals from './reportWebVitals';
-import configureStore from './redux/helpers/store';
 import { ToastContainer } from 'react-toastify';
-
-const store = configureStore();
+import store from './redux/helpers/store';
 
 ReactDOM.render(
   <React.StrictMode>
