@@ -6,9 +6,19 @@ const isPasswordValid = (password: String) => {
     return password.length >= 8;
 }
 
+const isFieldEmpty = (text: String) => {
+    return text.length === 0;
+}
+
+const isPasswordsMatch = (password: String, confirmPassword: String) => {
+    return !isFieldEmpty(password) && !isFieldEmpty(confirmPassword) && password === confirmPassword;
+}
+
 const Validator = {
+    isFieldEmpty,
     isEmailValid,
-    isPasswordValid
+    isPasswordValid,
+    isPasswordsMatch
 }
 
 export default Validator;
