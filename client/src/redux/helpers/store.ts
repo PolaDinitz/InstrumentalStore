@@ -7,11 +7,12 @@ const rootReducer = combineReducers({
     userState: userReducer
 });
 
+const composeEnhancers = composeWithDevTools({});
+
 const configureStore = () => {
     return createStore(
       rootReducer,
-      compose(applyMiddleware(thunk),
-      composeWithDevTools())
+      composeEnhancers(applyMiddleware(thunk))
     );
 };
 
