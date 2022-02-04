@@ -18,7 +18,6 @@ import { Link } from "react-router-dom";
 interface Page {
   name: string;
   path: string;
-  component: any;
 }
 interface NavbarProps {
   pages: Array<Page>;
@@ -95,7 +94,7 @@ const Navbar = (props: NavbarProps) => {
             >
               {pages.map((page) => (
                 <MenuItem key={page.name} onClick={handleCloseNavMenu}>
-                  <Link to={page.name}>
+                  <Link to={page.path}>
                     <Typography textAlign="center">{page.name}</Typography>
                   </Link>
                 </MenuItem>
