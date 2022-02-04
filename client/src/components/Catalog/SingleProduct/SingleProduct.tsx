@@ -1,4 +1,4 @@
-import { Button, Card, CardActions, CardContent, CardMedia, Grid, Typography } from "@mui/material";
+import { Button, Card, CardActions, CardContent, CardMedia, Container, Grid, Typography } from "@mui/material";
 
 export interface Item {
   title: string;
@@ -15,8 +15,10 @@ const SingleProduct = (props: Props) => {
   const { item } = props;
 
       return (
-        <Grid item md={4}>
-        <Card sx={{ maxWidth: 345 }}>
+        // <Container>
+        <Grid item xs={12} sm={6} md={4}>
+        {/* <Card sx={{ maxWidth: 345 }}> */}
+        <Card>
           <CardMedia
             component="img"
             height="140"
@@ -37,6 +39,7 @@ const SingleProduct = (props: Props) => {
           </CardActions>
         </Card>
         </Grid>
+        // </Container>
       );
 };
 

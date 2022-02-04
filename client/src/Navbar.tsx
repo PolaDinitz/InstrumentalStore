@@ -111,6 +111,7 @@ const Navbar = (props: NavbarProps) => {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
+              <Link to={page.path}>
               <Button
                 key={page.name}
                 onClick={handleCloseNavMenu}
@@ -118,6 +119,7 @@ const Navbar = (props: NavbarProps) => {
               >
                 {page.name}
               </Button>
+              </Link>
             ))}
           </Box>
 

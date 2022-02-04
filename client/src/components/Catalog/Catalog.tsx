@@ -19,13 +19,13 @@ const initialState: Item[] = [
 
 export const Catalog = () => {
   return (
-    <Container>
-      <Grid direction="row" spacing={12} alignItems="flex-start">
+    // <Container>
+      <Grid container spacing={4}>
         {initialState.map((product) => (
           <SingleProduct key={product.id} item={product} />
         ))}
       </Grid>
-    </Container>
+    // </Container>
   );
 };
 
