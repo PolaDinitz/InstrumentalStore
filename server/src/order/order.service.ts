@@ -36,7 +36,8 @@ export class OrderService {
     const newOrder = new this.orderModel({
       userEmail: createOrderDto.userEmail,
       date: createOrderDto.date,
-      itemList: createOrderDto.itemList
+      itemList: createOrderDto.itemList,
+      orderAddress: createOrderDto.orderAddress,
     });
     return newOrder.save();
   }

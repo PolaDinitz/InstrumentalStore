@@ -10,5 +10,6 @@ export class CreateOrderDto {
     @IsArray()
     @IsNotEmpty()
     itemList: [{instumentName: string,qountity:number}];
-
+    @IsNotEmpty()
+    orderAddress: string;
 }

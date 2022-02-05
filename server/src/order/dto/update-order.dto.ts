@@ -12,4 +12,6 @@ export class UpdateOrderDto extends PartialType(CreateOrderDto) {
     @IsArray()
     @IsOptional()
     itemList: [{instumentName: string,qountity:number}];
+    @IsOptional()
+    orderAddress: string;
 }
