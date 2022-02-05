@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from "./Navbar";
 import ProductsList from "./ProductsList";
 import Cart from "./Cart";
+import ProductsDashboard from "./components/ProductsDashboard";
+import AddProduct from "./components/AddProduct";
 
 const pages = [
   {
@@ -12,9 +14,14 @@ const pages = [
     component: ProductsList,
   },
   {
-    name: "Cart",
-    path: "/Cart",
-    component: Cart,
+    name: "Products Dashboard",
+    path: "/products/dashboard",
+    component: ProductsDashboard,
+  },
+  {
+    name: "Add Product",
+    path: "/products/add",
+    component: AddProduct,
   },
 ];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
