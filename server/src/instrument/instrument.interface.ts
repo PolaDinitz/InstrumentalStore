@@ -1,8 +1,7 @@
 import { Document } from "mongoose";
 
-
 export interface Instrument extends Document {
-    instumentName: string,
+    instrumentName: string,
     description: string,
     photoUrl: string,
     category: string,

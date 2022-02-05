@@ -6,13 +6,10 @@ import { Category } from '../category.enum';
 
 export class UpdateInstrumentDto extends PartialType(CreateInstrumentDto) {
 
-
     @IsOptional()
-    instumentName: string;
+    instrumentName: string;
     @IsOptional()
     description: string;
-    @IsOptional()
-    photoUrl: string;
     @IsOptional()
     @IsEnum(Category)
     category: string;

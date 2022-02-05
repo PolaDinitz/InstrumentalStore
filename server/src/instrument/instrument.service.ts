@@ -1,8 +1,11 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { CreateInstrumentDto } from './dto/create-instrument.dto';
-import { UpdateInstrumentDto } from './dto/update-instrument.dto';
-import { Model } from 'mongoose';
-import {Instrument} from './instrument.interface';
+import { Inject, Injectable } from "@nestjs/common";
+import { CreateInstrumentDto } from "./dto/create-instrument.dto";
+import { UpdateInstrumentDto } from "./dto/update-instrument.dto";
+import { Model } from "mongoose";
+import { Instrument } from "./instrument.interface";
+import { DEFAULT_IMAGE_FILE_NAME, IMAGES_ASSETS_PATH } from "../consts/images.consts";
+import * as fs from 'fs';
+
 @Injectable()
 export class InstrumentService {
 
@@ -24,33 +27,35 @@ export class InstrumentService {
   }
 
   public async getInstrumentByName(name: string): Promise<Instrument>{
-    return this.instrumentModel.findOne({ 'instumentName': name }).exec();
+    return this.instrumentModel.findOne({ 'instrumentName': name }).exec();
   }
 
-  public async updateInstrumnet(id : string,updateInstrumentDto: UpdateInstrumentDto){
+  public async updateInstrument(id : string, updateInstrumentDto: UpdateInstrumentDto, imageFile: Express.Multer.File){
     const oldInstrument = await this.getInstrumentByID(id)
-
-    const newInstrument = { 
-       instumentName: updateInstrumentDto.instumentName || oldInstrument.instumentName,
+    if (imageFile) {
+      fs.unlinkSync(IMAGES_ASSETS_PATH + oldInstrument.photoUrl);
+    }
+    const newInstrument = {
+       instrumentName: updateInstrumentDto.instrumentName || oldInstrument.instrumentName,
        description: updateInstrumentDto.description || oldInstrument.description,
-       photoUrl: updateInstrumentDto.photoUrl || oldInstrument.photoUrl,
+       photoUrl: imageFile?.filename || oldInstrument.photoUrl,
        category: updateInstrumentDto.category || oldInstrument.category.toString(),
        price: updateInstrumentDto.price || oldInstrument.price,
     }
 
-    return this.instrumentModel.findByIdAndUpdate(id,newInstrument);
+    return this.instrumentModel.findByIdAndUpdate(id, newInstrument, { returnOriginal: false });
   }
 
   public async deleteInstrument(id : string){
-    return this.instrumentModel.findOneAndDelete({ "id":id}).exec();
+    return this.instrumentModel.findByIdAndDelete(id).exec();
   }
 
 
-  public async createInstrument(createInstrumentDto: CreateInstrumentDto) :Promise<Instrument>{
+  public async createInstrument(createInstrumentDto: CreateInstrumentDto, imageFile: Express.Multer.File) :Promise<Instrument>{
       const newInstrument = new this.instrumentModel({
-        instumentName: createInstrumentDto.instumentName,
+        instrumentName: createInstrumentDto.instrumentName,
         description: createInstrumentDto.description,
-        photoUrl: createInstrumentDto.photoUrl,
+        photoUrl: imageFile?.filename || DEFAULT_IMAGE_FILE_NAME,
         category: createInstrumentDto.category,
         price: createInstrumentDto.price, 
       });
