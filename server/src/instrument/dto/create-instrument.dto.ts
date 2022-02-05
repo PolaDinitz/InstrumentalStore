@@ -3,11 +3,9 @@ import { Category } from '../category.enum';
 
 export class CreateInstrumentDto {
     @IsNotEmpty()
-    instumentName: string;
+    instrumentName: string;
     @IsNotEmpty()
     description: string
-    @IsNotEmpty()
-    photoUrl: string
     @IsNotEmpty()
     @IsEnum(Category)
     category: string

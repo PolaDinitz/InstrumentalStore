@@ -3,9 +3,9 @@ import { InstrumentSchema } from './instrument.schema';
 
 export const instrumentProviders = [
   {
-    provide: 'INSTUMENT_MODEL',
+    provide: 'INSTRUMENT_MODEL',
     useFactory: (connection: Connection) =>
-      connection.model('User', InstrumentSchema),
+      connection.model('Instrument', InstrumentSchema),
     inject: ['DATABASE_CONNECTION'],
   },
 ];
