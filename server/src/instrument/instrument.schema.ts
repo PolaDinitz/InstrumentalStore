@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-import { Category } from './category.enum';
+import { Category } from '../category/category.enum';
 
 export const InstrumentSchema = new mongoose.Schema({
   instrumentName: { type: String, required: true },

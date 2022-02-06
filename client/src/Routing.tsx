@@ -6,6 +6,7 @@ import ProductsList from "./ProductsList";
 import Cart from "./Cart";
 import ProductsDashboard from "./components/ProductsDashboard";
 import AddProduct from "./components/AddProduct";
+import Login from "./components/Login";
 
 const pages = [
   {
@@ -17,6 +18,11 @@ const pages = [
     name: "Products Dashboard",
     path: "/products/dashboard",
     component: ProductsDashboard,
+  },
+  {
+    name: "Login",
+    path: "/login",
+    component: Login,
   },
   {
     name: "Add Product",

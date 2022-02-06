@@ -1,20 +1,41 @@
-import {Avatar, Button, ButtonBase, InputAdornment, Paper, TextField, Typography} from '@mui/material';
-import {Add as AddIcon, FormatColorText as TextInputIcon, AttachMoney as AttachMoneyIcon} from '@mui/icons-material';
+import {
+    Avatar,
+    Button,
+    FormControl,
+    FormHelperText,
+    InputAdornment,
+    InputLabel,
+    MenuItem,
+    Paper,
+    Select,
+    SelectChangeEvent,
+    TextField,
+    Typography
+} from '@mui/material';
+import {Add as AddIcon, AttachMoney as AttachMoneyIcon, FormatColorText as TextInputIcon} from '@mui/icons-material';
 import React, {ChangeEvent, useState} from 'react'
 import {Box} from '@mui/system';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {InputError} from '../redux/models/inputError.model';
 import Validator from '../utils/validator'
 import InputErrorMessage from '../enums/input-error-message';
 import "react-toastify/dist/ReactToastify.css";
-import {AppDispatch} from '../redux/helpers/store';
-import classes from "*.module.css";
+import {AppDispatch, RootState} from '../redux/helpers/store';
+import {categoryActions} from "../redux/actions/category.actions";
+import useUpdateEffect from "../redux/helpers/use-update-effect";
+import {Category} from "../redux/models/category.model";
 
 const AddProduct = () => {
     const dispatch = useDispatch<AppDispatch>()
 
+    useUpdateEffect(() => {
+        dispatch(categoryActions.loadCategories())
+    },[])
+
+    const categories = useSelector((state: RootState) => state.categoryState.categories);
+
     const paperStyle = { 
-        padding: 20, 
+        padding: 20,
         minHeight: '10px', 
         width: '35vh', 
         margin: "50px auto",
@@ -30,8 +51,8 @@ const AddProduct = () => {
 
     const instrumentName = useFormInput('');
     const description = useFormInput('');
-    const category = useFormInput('');
     const price = useFormInput('');
+    const [category, setCategory] = useState('');
     const [image, setImage] = useState(null);
     const [error, setError] = useState(errorInitialState);
 
@@ -59,8 +80,30 @@ const AddProduct = () => {
             }
             isValid = false;
         }
+        if (Validator.isFieldEmpty(category)) {
+            inputErrors.category = {
+                hasError: true,
+                errorMessage: InputErrorMessage.EMPTY_INPUT_ERROR
+            }
+            isValid = false;
+        }
+        if (!Validator.isPriceValid(+price.value)) {
+            inputErrors.price = {
+                hasError: true,
+                errorMessage: InputErrorMessage.PRICE_INPUT_ERROR
+            }
+            isValid = false;
+        }
         setError(inputErrors);
         return isValid;
+    }
+
+    const onSelectCategory = (event: SelectChangeEvent) => {
+        setCategory(event.target.value as string)
+    }
+
+    const onSelectImage = (event: any) => {
+        setImage(event.target.files[0])
     }
 
     return (
@@ -105,23 +148,25 @@ const AddProduct = () => {
                     error={error?.description?.hasError}
                     helperText={error?.description?.hasError ? error.description.errorMessage : ''}
                 />
-                {/*<TextField
-                    {...category}
-                    InputProps={{
-                        startAdornment: (
-                            <InputAdornment position="start"><EmailIcon /></InputAdornment>
-                        ),
-                    }}
-                    variant="filled"
-                    type=""
-                    label="Email"
-                    placeholder='Enter email'
+                <FormControl
                     fullWidth
+                    variant="filled"
                     required
-                    sx={{margin: "10px"}}
-                    error={error?.email?.hasError}
-                    helperText={error?.email?.hasError ? error.email.errorMessage : ''}
-                />*/}
+                    error={error?.category?.hasError}>
+                    <InputLabel id="category-select-label">Category</InputLabel>
+                    <Select
+                        labelId="category-select-label"
+                        id="category-select-label"
+                        value={category}
+                        label="Category"
+                        onChange={onSelectCategory}
+                    >
+                    {categories.map((category: Category) => (
+                        <MenuItem key={category.name} value={category.name}>{category.name}</MenuItem>
+                    ))}
+                    </Select>
+                    {error?.category?.hasError && <FormHelperText>{error.category.errorMessage}</FormHelperText>}
+                </FormControl>
                 <TextField
                     {...price}
                     InputProps={{
@@ -143,8 +188,8 @@ const AddProduct = () => {
                     Upload image:
                     <input style={{ padding: "5px", margin: "5px" }}
                            accept="image/*"
-                           multiple
                            type="file"
+                           onChange={onSelectImage}
                     />
                 </Typography>
                 <Button

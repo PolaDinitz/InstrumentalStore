@@ -1,10 +1,12 @@
-import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
+import {applyMiddleware, combineReducers, createStore} from 'redux';
 import userReducer from '../reducers/user.reducer';
+import categoryReducer from '../reducers/category.reducer';
 import thunk from 'redux-thunk';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import {composeWithDevTools} from 'redux-devtools-extension';
 
 const rootReducer = combineReducers({
-    userState: userReducer
+    userState: userReducer,
+    categoryState: categoryReducer,
 });
 
 const composeEnhancers = composeWithDevTools({});
