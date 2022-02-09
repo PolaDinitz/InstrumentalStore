@@ -1,18 +1,30 @@
-import { Controller, Get, Post, Body, Param, HttpException, HttpStatus, UseGuards, Request, UnauthorizedException, Delete, Put } from '@nestjs/common';
-import { UserService } from './user.service';
-import { CreateUserDto } from './dtos/create-user.dto';
-import { JwtAuthGuard } from '../authentication/jwt-auth.guard';
-import { Role } from '../authorization/role.enum';
-import { UpdateUserDto } from './dtos/update-user.dto';
-import { Roles } from '../authorization/roles.decorator';
-import { RolesGuard } from '../authorization/roles.guard';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    HttpException,
+    HttpStatus,
+    Param,
+    Post,
+    Put,
+    Request,
+    UnauthorizedException,
+    UseGuards
+} from "@nestjs/common";
+import { UserService } from "./user.service";
+import { CreateUserDto } from "./dtos/create-user.dto";
+import { JwtAuthGuard } from "../authentication/jwt-auth.guard";
+import { Role } from "../authorization/role.enum";
+import { UpdateUserDto } from "./dtos/update-user.dto";
+import { Roles } from "../authorization/roles.decorator";
+import { RolesGuard } from "../authorization/roles.guard";
 
 @Controller('user')
 export class UserController {
 
     constructor (private userService: UserService) {}
 
-    
     @Get()
     @Roles(Role.Admin)
     @UseGuards(JwtAuthGuard, RolesGuard)
@@ -20,8 +32,6 @@ export class UserController {
         return this.userService.getUsers();
     }
 
-
-    
     @Get(':id')
     @Roles(Role.Admin, Role.User)
     @UseGuards(JwtAuthGuard, RolesGuard)
@@ -60,7 +70,7 @@ export class UserController {
         if (createUserDto.password != createUserDto.confirmPassword) {
             throw new HttpException('password and confirm does not match', HttpStatus.BAD_REQUEST);
         }
-        this.userService.register(createUserDto);
+        return this.userService.register(createUserDto);
     }
 
 }
