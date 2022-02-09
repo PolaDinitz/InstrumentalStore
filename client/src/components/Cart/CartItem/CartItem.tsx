@@ -1,16 +1,9 @@
 import { ButtonBase, Grid, Paper, Typography } from "@mui/material";
 import { styled } from '@mui/material/styles';
+import { CartProduct } from "../../../type";
 
-export interface Item {
-    title: string;
-    price: number;
-    id: string;
-    img: string;
-    quantity: number;
-}
-
-interface Props {
-    cartItem: Item;
+interface CartItemProps {
+    cartItem: CartProduct;
   }
 
 const Img = styled('img')({
@@ -20,7 +13,7 @@ const Img = styled('img')({
   maxHeight: '100%',
 });
 
-const CartItem = (props: Props) => {
+const CartItem = (props: CartItemProps) => {
   return (
     <Paper sx={{ p: 2, margin: 'auto', maxWidth: 500, flexGrow: 1 }}>
       <Grid container spacing={2}>

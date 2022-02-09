@@ -8,7 +8,7 @@ import { InputError } from '../redux/models/inputError.model';
 import Validator from '../utils/validator'
 import InputErrorMessage from '../enums/input-error-message';
 import "react-toastify/dist/ReactToastify.css";
-import { AppDispatch, RootState } from '../redux/helpers/store';
+import { AppDispatch, RootState } from '../type';
 
 const Register = () => {
     const dispatch = useDispatch<AppDispatch>()

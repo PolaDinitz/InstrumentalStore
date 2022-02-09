@@ -1,27 +1,29 @@
-import { Grid, Container } from "@mui/material";
+import { Grid } from "@mui/material";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { config } from "../../config/config";
+import { setProducts } from "../../redux/actions/product-actions";
+import { Product, RootState } from "../../type";
 import SingleProduct from "./SingleProduct/SingleProduct";
 
-const img_url =
-  "https://www.google.com/url?sa=i&url=https%3A%2F%2Fcommons.wikimedia.org%2Fwiki%2FFile%3AReact-icon.svg&psig=AOvVaw1ymjZayJQZVjw1P69aS15M&ust=1644081064216000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCKjwhLDF5vUCFQAAAAAdAAAAABAD";
-export interface Item {
-  title: string;
-  price: number;
-  id: string;
-  img: string;
-}
+const Catalog = () => {
 
-const initialState: Item[] = [
-  { title: "bla", price: 20, id: "bla1", img: img_url },
-  { title: "blabla", price: 30, id: "bla2", img: img_url },
-  { title: "blablabla", price: 40, id: "bla3", img: img_url },
-  { title: "blablablabla", price: 50, id: "bla4", img: img_url },
-];
+  const allProducts = useSelector((state: RootState) => state.productsState.products);
+  const dispatch = useDispatch();
 
-export const Catalog = () => {
+  const fetchProducts = async () => {
+    const response = await axios
+    .get(`${config.apiUrl}/getProducts`)
+    .catch((err: Error) => {
+      throw new Error(err.message);
+    });
+    dispatch(setProducts(response.data));
+  }
+
   return (
     // <Container>
       <Grid container spacing={4}>
-        {initialState.map((product) => (
+        {allProducts.map((product: Product) => (
           <SingleProduct key={product.id} item={product} />
         ))}
       </Grid>

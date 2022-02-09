@@ -2,7 +2,7 @@ import { userActionTypes } from '../action-types/user.action-types';
 import { userService } from '../../services/user.service';
 import { toast } from 'react-toastify';
 import { User } from '../models/user.model';
-import { AppDispatch } from '../helpers/store';
+import { AppDispatch } from '../../type';
 
 const registerRequestAction = () => { return { type: userActionTypes.REGISTER_REQUEST } }
 const registerSuccessAction = () => { return { type: userActionTypes.REGISTER_SUCCESS } }
