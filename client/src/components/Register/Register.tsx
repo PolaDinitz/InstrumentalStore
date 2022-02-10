@@ -3,12 +3,12 @@ import { Email as EmailIcon, Password as PasswordIcon, HowToReg as RegIcon, Form
 import React, { ChangeEvent, useState } from 'react'
 import { Box } from '@mui/system';
 import { useDispatch, useSelector } from 'react-redux';
-import { userActions } from '../redux/actions/user.actions';
-import { InputError } from '../redux/models/inputError.model';
-import Validator from '../utils/validator'
-import InputErrorMessage from '../enums/input-error-message';
+import { userActions } from '../../redux/User/user.actions';
+import { InputError } from '../../models/inputError.model';
+import Validator from '../../utils/validator'
+import InputErrorMessage from '../../enums/input-error-message';
 import "react-toastify/dist/ReactToastify.css";
-import { AppDispatch, RootState } from '../redux/helpers/store';
+import { AppDispatch, RootState } from '../../type';
 
 const Register = () => {
     const dispatch = useDispatch<AppDispatch>()

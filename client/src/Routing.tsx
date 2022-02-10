@@ -1,37 +1,31 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import Catalog from './components/Catalog/Catalog';
+import Cart from './components/Cart/Cart';
 
 import Navbar from "./Navbar";
-import ProductsList from "./ProductsList";
-import Cart from "./Cart";
+import Login from "./components/Login/Login";
 
 const pages = [
   {
-    name: "Products",
-    path: "/Products",
-    component: ProductsList,
-  },
-  {
-    name: "Cart",
-    path: "/Cart",
-    component: Cart,
-  },
+    name: "Catalog",
+    path: "/catalog",
+  }
 ];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const settings = ["Dashboard", "Logout"];
 
 const Routing = () => {
   return (
     <Router>
+      <>
       <Navbar pages={pages} settings={settings} />
       <Routes>
-        {pages.map((page) => (
-          <Route
-            key={page.name}
-            path={page.path}
-            element={<page.component />}
-          />
-        ))}
+        <Route path="/" element={<Catalog/>}/>
+        <Route path="/catalog" element={<Catalog/>}/>
+        <Route path="/cart" element={<Cart/>}/>
+        <Route path="/login" element={<Login/>}/>
       </Routes>
+      </>
     </Router>
   );
 };

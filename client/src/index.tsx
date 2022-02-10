@@ -2,10 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import { Provider } from 'react-redux';
+import {Provider} from 'react-redux';
 import reportWebVitals from './reportWebVitals';
-import { ToastContainer } from 'react-toastify';
-import store from './redux/helpers/store';
+import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
+import store from './redux/store';
 
 ReactDOM.render(
   <React.StrictMode>

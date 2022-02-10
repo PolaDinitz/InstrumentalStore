@@ -1,10 +1,5 @@
-import { userActionTypes } from '../action-types/user.action-types';
-import { User } from '../models/user.model';
-
-interface UserState {
-    user: User | null,
-    loggedIn: boolean
-}
+import {userActionTypes} from './user.action-types';
+import {UserState} from "./user.model";
 
 let initialState: UserState = {
     user: null,
