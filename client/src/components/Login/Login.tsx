@@ -1,4 +1,4 @@
-import { Avatar, TextField, Paper, InputAdornment, Button, Typography, Link } from '@mui/material';
+import { Avatar, TextField, Paper, InputAdornment, Button, Typography } from '@mui/material';
 import { Email as EmailIcon, Password as PasswordIcon, Login as LoginIcon } from '@mui/icons-material';
 import React, { ChangeEvent, useState } from 'react'
 import { Box } from '@mui/system';
@@ -9,6 +9,7 @@ import Validator from '../../utils/validator'
 import InputErrorMessage from '../../enums/input-error-message';
 import "react-toastify/dist/ReactToastify.css";
 import { AppDispatch, RootState } from '../../type';
+import {Link} from "react-router-dom";
 
 const Login = () => {
     const dispatch = useDispatch<AppDispatch>()
@@ -115,7 +116,7 @@ const Login = () => {
                     </Button>
                     <Typography textAlign="center"> 
                         Don't have an account?
-                        <Link href="#" underline="none"> Register</Link>
+                        <Link to="/register">Register</Link>
                     </Typography>
                 </Box>
             }

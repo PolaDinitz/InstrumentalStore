@@ -8,6 +8,7 @@ import Login from "./components/Login/Login";
 import ProductsDashboard from "./components/ProductsDashboard/ProductsDashboard";
 import AddProduct from "./components/AddProduct/AddProduct";
 import PrivateRoute from "./PrivateRouter";
+import Register from "./components/Register/Register";
 
 const pages = [
     {
@@ -23,6 +24,7 @@ const Routing = () => {
             <Navbar pages={pages} />
             <Routes>
                 <Route path="/login" element={<Login/>}/>
+                <Route path="/register" element={<Register/>}/>
                 <Route path='/' element={<PrivateRoute/>}>
                     <Route path='/' element={<Catalog/>}/>
                 </Route>
