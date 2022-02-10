@@ -1,8 +1,8 @@
 import {toast} from 'react-toastify';
-import {Category} from '../models/category.model';
-import {AppDispatch} from '../helpers/store';
-import {categoryActionTypes} from "../action-types/category.action-types";
 import {categoryService} from "../../services/category.service";
+import {categoryActionTypes} from './category.action-types';
+import {Category} from "./category.model";
+import {AppDispatch} from "../../type";
 
 const loadCategoriesRequestAction = () => { return { type: categoryActionTypes.LOAD_CATEGORIES_REQUEST } }
 const loadCategoriesSuccessAction = (categories: Category[]) => { return { type: categoryActionTypes.LOAD_CATEGORIES_SUCCESS, payload: categories } }

@@ -1,5 +1,5 @@
-import {Category} from "../models/category.model";
-import {categoryActionTypes} from "../action-types/category.action-types";
+import {Category} from "./category.model";
+import {categoryActionTypes} from "./category.action-types";
 
 interface CategoryState {
     categories: Category[]

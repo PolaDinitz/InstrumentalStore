@@ -1,12 +1,16 @@
 import {applyMiddleware, combineReducers, createStore} from 'redux';
-import userReducer from '../reducers/user.reducer';
-import categoryReducer from '../reducers/category.reducer';
+import userReducer from './User/user.reducer';
 import thunk from 'redux-thunk';
 import {composeWithDevTools} from 'redux-devtools-extension';
+import cartReducer from './Cart/cart.reducer';
+import productsReducer from './Product/product.reducer';
+import categoryReducer from "./Category/category.reducer";
 
 const rootReducer = combineReducers({
     userState: userReducer,
-    categoryState: categoryReducer,
+    cartState: cartReducer,
+    productsState: productsReducer,
+    categoryState: categoryReducer
 });
 
 const composeEnhancers = composeWithDevTools({});
@@ -19,8 +23,5 @@ const configureStore = () => {
 };
 
 const store = configureStore();
-
-export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
 
 export default store;

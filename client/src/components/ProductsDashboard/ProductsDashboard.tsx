@@ -3,8 +3,8 @@ import "react-toastify/dist/ReactToastify.css";
 import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Paper} from '@mui/material';
 import {DataGrid, GridColDef, GridRenderCellParams, GridValueGetterParams} from '@mui/x-data-grid';
 import {Delete as DeleteIcon, Edit as EditIcon} from '@mui/icons-material';
-import {DialogStateModel} from "../redux/models/dialogState.model";
 import {Link} from "react-router-dom";
+import {DialogStateModel} from "../../models/dialogState.model";
 
 const ProductsDashboard = () => {
     const [dialogState, setDialogState] = useState({isOpen: false} as DialogStateModel);

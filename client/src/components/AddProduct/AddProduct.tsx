@@ -16,14 +16,14 @@ import {Add as AddIcon, AttachMoney as AttachMoneyIcon, FormatColorText as TextI
 import React, {ChangeEvent, useState} from 'react'
 import {Box} from '@mui/system';
 import {useDispatch, useSelector} from 'react-redux';
-import {InputError} from '../redux/models/inputError.model';
-import Validator from '../utils/validator'
-import InputErrorMessage from '../enums/input-error-message';
+import Validator from '../../utils/validator'
+import InputErrorMessage from '../../enums/input-error-message';
 import "react-toastify/dist/ReactToastify.css";
-import {AppDispatch, RootState} from '../redux/helpers/store';
-import {categoryActions} from "../redux/actions/category.actions";
-import useUpdateEffect from "../redux/helpers/use-update-effect";
-import {Category} from "../redux/models/category.model";
+import useUpdateEffect from "../../utils/use-update-effect";
+import {AppDispatch, RootState} from "../../type";
+import {categoryActions} from "../../redux/Category/category.actions";
+import {InputError} from "../../models/inputError.model";
+import {Category} from "../../redux/Category/category.model";
 
 const AddProduct = () => {
     const dispatch = useDispatch<AppDispatch>()

@@ -1,6 +1,6 @@
 import {config} from "../config/config"
 import axios from "axios";
-import {authHeader} from "../redux/helpers/auth-headers";
+import {authHeader} from "../utils/auth-headers";
 
 const getCategories = () => {
     return axios.get(`${config.apiUrl}/categories`, { headers: {"Authorization" : `Bearer ${authHeader()}`}})
