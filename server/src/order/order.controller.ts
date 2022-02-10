@@ -1,11 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete,UseGuards,Request, UnauthorizedException, Put } from '@nestjs/common';
-import { OrderService } from './order.service';
-import { CreateOrderDto } from './dto/create-order.dto';
-import { UpdateOrderDto } from './dto/update-order.dto';
-import { Roles } from 'src/authorization/roles.decorator';
-import { Role } from 'src/authorization/role.enum';
-import { JwtAuthGuard } from '../authentication/jwt-auth.guard';
-import { RolesGuard } from '../authorization/roles.guard';
+import { Body, Controller, Delete, Get, Param, Put, Request, UnauthorizedException, UseGuards } from "@nestjs/common";
+import { OrderService } from "./order.service";
+import { CreateOrderDto } from "./dto/create-order.dto";
+import { Roles } from "src/authorization/roles.decorator";
+import { Role } from "src/authorization/role.enum";
+import { JwtAuthGuard } from "../authentication/jwt-auth.guard";
+import { RolesGuard } from "../authorization/roles.guard";
 
 @Controller('order')
 export class OrderController {
@@ -18,12 +17,23 @@ export class OrderController {
     return this.orderService.getOrders();
   }
 
+  @Get('/user/:userEmail')
+  @Roles(Role.Admin, Role.User)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  async getOrdersByUserEmail(@Request() req: any, @Param('userEmail') userEmail: string){
+    const orders = await this.orderService.getOrdersByUserEmail(userEmail);
+    if(req.user['role'] !== Role.Admin && req.user['email'] !== userEmail){
+      throw new UnauthorizedException;
+    }
+    return orders;
+  }
+
   @Get(':id')
   @Roles(Role.Admin,Role.User)
   @UseGuards(JwtAuthGuard, RolesGuard)
   async getOrder(@Request() req: any, @Param('id') id: string){
     const order = await this.orderService.getOrderById(id);
-    if(req.role != Role.Admin || req.userEmail != order.userEmail){
+    if(req.user['role'] !== Role.Admin && req.user['email'] !== order.userEmail){
       throw new UnauthorizedException;
     }
     return order;
@@ -37,7 +47,9 @@ export class OrderController {
   }
 
   @Put()
+  @Roles(Role.Admin, Role.User)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   async createOrder(@Body() createOrderDto: CreateOrderDto){
-      this.orderService.createOrder(createOrderDto);
+      return this.orderService.createOrder(createOrderDto);
   }
 }
