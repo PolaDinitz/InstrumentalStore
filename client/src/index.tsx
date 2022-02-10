@@ -5,7 +5,7 @@ import App from './App';
 import { Provider } from 'react-redux';
 import reportWebVitals from './reportWebVitals';
 import { ToastContainer } from 'react-toastify';
-import store from './redux/helpers/store';
+import store from './redux/store';
 
 ReactDOM.render(
   <React.StrictMode>

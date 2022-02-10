@@ -1,9 +1,9 @@
-import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
-import userReducer from '../reducers/user.reducer';
+import {applyMiddleware, combineReducers, createStore} from 'redux';
+import userReducer from './User/user.reducer';
 import thunk from 'redux-thunk';
-import { composeWithDevTools } from 'redux-devtools-extension';
-import cartReducer from '../reducers/cart.reducer';
-import productsReducer from '../reducers/product.reducer';
+import {composeWithDevTools} from 'redux-devtools-extension';
+import cartReducer from './Cart/cart.reducer';
+import productsReducer from './Product/product.reducer';
 
 const rootReducer = combineReducers({
     userState: userReducer,

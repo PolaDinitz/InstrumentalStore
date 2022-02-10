@@ -1,5 +1,6 @@
-import { createSelector, Selector } from 'reselect';
-import { RootState, CartState, CartProduct } from '../../type';
+import {createSelector, Selector} from 'reselect';
+import {RootState} from '../../type';
+import {CartProduct, CartState} from "./cart.model";
 
 const selectCart = (state: RootState): CartState => state.cart;
 

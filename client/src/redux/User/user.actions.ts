@@ -1,7 +1,7 @@
-import { userActionTypes } from '../action-types/user.action-types';
+import { userActionTypes } from './user.action-types';
 import { userService } from '../../services/user.service';
 import { toast } from 'react-toastify';
-import { User } from '../models/user.model';
+import { User } from './user.model';
 import { AppDispatch } from '../../type';
 
 const registerRequestAction = () => { return { type: userActionTypes.REGISTER_REQUEST } }

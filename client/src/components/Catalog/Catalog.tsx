@@ -1,30 +1,20 @@
-import { Grid } from "@mui/material";
-import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import { config } from "../../config/config";
-import { setProducts } from "../../redux/actions/product-actions";
-import { Product, RootState } from "../../type";
+import {Grid} from "@mui/material";
+import {useDispatch} from "react-redux";
+import {productsActions} from "../../redux/Product/product.actions";
 import SingleProduct from "./SingleProduct/SingleProduct";
+import {Product} from "../../redux/Product/product.model";
 
 const Catalog = () => {
-
-  const allProducts = useSelector((state: RootState) => state.productsState.products);
   const dispatch = useDispatch();
+  dispatch(productsActions.loadProducts());
 
-  const fetchProducts = async () => {
-    const response = await axios
-    .get(`${config.apiUrl}/getProducts`)
-    .catch((err: Error) => {
-      throw new Error(err.message);
-    });
-    dispatch(setProducts(response.data));
-  }
+  const allProducts: Product[] = [];
 
   return (
     // <Container>
       <Grid container spacing={4}>
         {allProducts.map((product: Product) => (
-          <SingleProduct key={product.id} item={product} />
+          <SingleProduct key={product.id} product={product} />
         ))}
       </Grid>
     // </Container>

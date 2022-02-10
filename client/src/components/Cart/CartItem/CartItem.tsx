@@ -1,10 +1,10 @@
-import { ButtonBase, Grid, Paper, Typography } from "@mui/material";
-import { styled } from '@mui/material/styles';
-import { CartProduct } from "../../../type";
+import {ButtonBase, Grid, Paper, Typography} from "@mui/material";
+import {styled} from '@mui/material/styles';
+import {CartProduct} from "../../../redux/Cart/cart.model";
 
 interface CartItemProps {
-    cartItem: CartProduct;
-  }
+  cartItem: CartProduct;
+}
 
 const Img = styled('img')({
   margin: 'auto',

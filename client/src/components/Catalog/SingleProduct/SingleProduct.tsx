@@ -1,18 +1,12 @@
 import { Button, Card, CardActions, CardContent, CardMedia, Container, Grid, Typography } from "@mui/material";
-
-export interface Item {
-  title: string;
-  price: number;
-  id: string;
-  img: string
-}
+import {Product} from "../../../redux/Product/product.model";
 
 interface Props {
-  item: Item;
+  product: Product;
 }
 
 const SingleProduct = (props: Props) => {
-  const { item } = props;
+  const { product } = props;
 
       return (
         // <Container>
@@ -22,12 +16,12 @@ const SingleProduct = (props: Props) => {
           <CardMedia
             component="img"
             height="140"
-            src={item.img}
-            alt={item.title}
+            src={product.photoUrl}
+            alt={product.instrumentName}
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
-              {item.title}
+              {product.instrumentName}
             </Typography>
             <Typography variant="body2" color="text.secondary">
               Lizards are a widespread group of squamate reptiles, with over 6,000

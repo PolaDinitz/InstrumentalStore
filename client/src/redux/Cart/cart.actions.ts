@@ -1,10 +1,8 @@
-import { ActionCreator, AnyAction } from 'redux';
-import cartActionTypes from '../action-types/cart.action-types';
-import { CartProduct } from '../../type';
+import {ActionCreator, AnyAction} from 'redux';
+import cartActionTypes from './cart.action-types';
+import {CartProduct} from "./cart.model";
 
-export const addItemToCart: ActionCreator<AnyAction> = (
-  shopItem: CartProduct
-): AnyAction => {
+export const addItemToCart: ActionCreator<AnyAction> = (shopItem: CartProduct): AnyAction => {
   return {
     type: cartActionTypes.ADD_ITEM,
     payload: shopItem
