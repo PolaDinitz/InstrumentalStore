@@ -1,6 +1,16 @@
 import React, {useState} from 'react'
 import "react-toastify/dist/ReactToastify.css";
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Paper} from '@mui/material';
+import {
+    Button,
+    Container,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Grid,
+    Paper
+} from '@mui/material';
 import {DataGrid, GridColDef, GridRenderCellParams, GridValueGetterParams} from '@mui/x-data-grid';
 import {Delete as DeleteIcon, Edit as EditIcon} from '@mui/icons-material';
 import {Link} from "react-router-dom";
@@ -128,43 +138,45 @@ const ProductsDashboard = () => {
     }
 
     return (
-        <Grid item xs={12} sx={{ margin: "50px" }}>
-            <Paper sx={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                <Link to="/products/add" style={{ textDecoration: "none", alignSelf: "self-end", margin: "5px" }}>
-                    <Button color="success" variant="contained" onClick={addProduct}>
-                        Add Product
-                    </Button>
-                </Link>
-                <DataGrid
-                    rows={rows}
-                    columns={columns}
-                    pageSize={10}
-                    rowsPerPageOptions={[10]}
-                    columnBuffer={8}
-                    autoHeight
-                    disableSelectionOnClick
-                />
-            </Paper>
-            <Dialog
-                open={dialogState.isOpen}
-                onClose={handleDialogClose}
-                aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">Confirm</DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        Are you sure you want to perform this action?
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={dialogState.cancelCallback} color="primary">
-                        Cancel
-                    </Button>
-                    <Button onClick={dialogState.confirmCallback} color="primary">
-                        Confirm
-                    </Button>
-                </DialogActions>
-            </Dialog>
-        </Grid>
+        <Container>
+            <Grid item xs={12} sx={{ margin: "50px" }}>
+                <Paper sx={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                    <Link to="/products/add" style={{ textDecoration: "none", alignSelf: "self-end", margin: "5px" }}>
+                        <Button color="success" variant="contained" onClick={addProduct}>
+                            Add Product
+                        </Button>
+                    </Link>
+                    <DataGrid
+                        rows={rows}
+                        columns={columns}
+                        pageSize={10}
+                        rowsPerPageOptions={[10]}
+                        columnBuffer={8}
+                        autoHeight
+                        disableSelectionOnClick
+                    />
+                </Paper>
+                <Dialog
+                    open={dialogState.isOpen}
+                    onClose={handleDialogClose}
+                    aria-labelledby="form-dialog-title">
+                    <DialogTitle id="form-dialog-title">Confirm</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            Are you sure you want to perform this action?
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={dialogState.cancelCallback} color="primary">
+                            Cancel
+                        </Button>
+                        <Button onClick={dialogState.confirmCallback} color="primary">
+                            Confirm
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+            </Grid>
+        </Container>
     );
 }
 

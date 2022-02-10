@@ -17,19 +17,24 @@ import MenuIcon from "@mui/icons-material/Menu";
 import {Link} from "react-router-dom";
 import PianoIcon from '@mui/icons-material/Piano';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {selectCartItemsCount} from "./redux/Cart/cart.selectors";
+import {userActions} from "./redux/User/user.actions";
+import {AppDispatch} from "./type";
 
 interface Page {
   name: string;
   path: string;
 }
+
 interface NavbarProps {
   pages: Array<Page>;
-  settings: Array<string>;
+  settings: Array<Page>;
 }
 
 const Navbar = (props: NavbarProps) => {
+  const dispatch = useDispatch<AppDispatch>()
+
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -50,6 +55,11 @@ const Navbar = (props: NavbarProps) => {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleLogout = () => {
+    handleCloseUserMenu();
+    dispatch(userActions.logout());
   };
 
   const { pages, settings } = { ...props };
@@ -164,10 +174,17 @@ const Navbar = (props: NavbarProps) => {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+                <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
+                  <Link style={{ color: 'inherit', textDecoration: 'none' }} to={setting.path}>
+                      {setting.name}
+                  </Link>
                 </MenuItem>
               ))}
+              <MenuItem key="Logout" onClick={handleLogout}>
+                <Typography>
+                  Logout
+                </Typography>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>
