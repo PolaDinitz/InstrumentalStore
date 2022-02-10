@@ -1,5 +1,5 @@
 import {IsNotEmpty, IsEnum} from 'class-validator';
-import { Category } from '../category.enum';
+import { Category } from '../../category/category.enum';
 
 export class CreateInstrumentDto {
     @IsNotEmpty()

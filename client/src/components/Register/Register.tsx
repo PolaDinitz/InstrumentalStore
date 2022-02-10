@@ -1,14 +1,20 @@
-import { Avatar, TextField, Paper, InputAdornment, Button, Typography, Link } from '@mui/material';
-import { Email as EmailIcon, Password as PasswordIcon, HowToReg as RegIcon, FormatColorText as TextInputIcon } from '@mui/icons-material';
-import React, { ChangeEvent, useState } from 'react'
-import { Box } from '@mui/system';
-import { useDispatch, useSelector } from 'react-redux';
-import { userActions } from '../../redux/User/user.actions';
-import { InputError } from '../../models/inputError.model';
+import {Avatar, Button, InputAdornment, Paper, TextField, Typography} from '@mui/material';
+import {
+    Email as EmailIcon,
+    FormatColorText as TextInputIcon,
+    HowToReg as RegIcon,
+    Password as PasswordIcon
+} from '@mui/icons-material';
+import React, {ChangeEvent, useState} from 'react'
+import {Box} from '@mui/system';
+import {useDispatch, useSelector} from 'react-redux';
+import {userActions} from '../../redux/User/user.actions';
+import {InputError} from '../../models/inputError.model';
 import Validator from '../../utils/validator'
 import InputErrorMessage from '../../enums/input-error-message';
 import "react-toastify/dist/ReactToastify.css";
-import { AppDispatch, RootState } from '../../type';
+import {AppDispatch, RootState} from '../../type';
+import {Link} from "react-router-dom";
 
 const Register = () => {
     const dispatch = useDispatch<AppDispatch>()
@@ -193,7 +199,7 @@ const Register = () => {
                     </Button>
                     <Typography textAlign="center"> 
                         Already have an account?
-                        <Link href="#" underline="none"> Login</Link>
+                        <Link to="/login">Login</Link>
                     </Typography>
                 </Box>
             }
