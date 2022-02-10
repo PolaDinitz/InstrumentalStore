@@ -21,7 +21,7 @@ import { RolesGuard } from "../authorization/roles.guard";
 import { JwtAuthGuard } from "../authentication/jwt-auth.guard";
 import { Role } from "src/authorization/role.enum";
 import { FileInterceptor } from "@nestjs/platform-express";
-import * as fs from 'fs';
+import * as fs from "fs";
 import { IMAGES_ASSETS_PATH } from "../consts/images.consts";
 
 @Controller('instrument')

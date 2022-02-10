@@ -20,7 +20,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import {useDispatch, useSelector} from "react-redux";
 import {selectCartItemsCount} from "./redux/Cart/cart.selectors";
 import {userActions} from "./redux/User/user.actions";
-import {AppDispatch} from "./type";
+import {AppDispatch, RootState} from "./type";
 
 interface Page {
   name: string;
@@ -29,7 +29,6 @@ interface Page {
 
 interface NavbarProps {
   pages: Array<Page>;
-  settings: Array<Page>;
 }
 
 const Navbar = (props: NavbarProps) => {
@@ -62,9 +61,11 @@ const Navbar = (props: NavbarProps) => {
     dispatch(userActions.logout());
   };
 
-  const { pages, settings } = { ...props };
+  const { pages } = { ...props };
 
   const cartTotalItems = useSelector(selectCartItemsCount);
+  const isLoggedIn = useSelector((state: RootState) => state.userState.loggedIn);
+  const user = useSelector((state: RootState) => state.userState.user);
 
   return (
     <AppBar position="static" sx={{marginBottom: "20px"}}>
@@ -173,18 +174,27 @@ const Navbar = (props: NavbarProps) => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
-                  <Link style={{ color: 'inherit', textDecoration: 'none' }} to={setting.path}>
-                      {setting.name}
+              {user?.role === 'Admin' &&
+                  <Link style={{ color: 'inherit', textDecoration: 'none' }} to="products/dashboard">
+                    <MenuItem key="Dashboard" onClick={handleCloseUserMenu}>
+                      Dashboard
+                    </MenuItem>
                   </Link>
-                </MenuItem>
-              ))}
-              <MenuItem key="Logout" onClick={handleLogout}>
-                <Typography>
-                  Logout
-                </Typography>
-              </MenuItem>
+              }
+              {isLoggedIn &&
+                  <MenuItem key="Logout" onClick={handleLogout}>
+                    <Typography>
+                      Logout
+                    </Typography>
+                  </MenuItem>
+              }
+              {!isLoggedIn &&
+                  <MenuItem key="Login" onClick={handleCloseUserMenu}>
+                    <Typography>
+                      Login
+                    </Typography>
+                  </MenuItem>
+              }
             </Menu>
           </Box>
         </Toolbar>

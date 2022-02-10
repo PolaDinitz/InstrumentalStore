@@ -15,18 +15,12 @@ const pages = [
     path: "/catalog",
     }
 ];
-const settings = [
-    {
-        name: "Dashboard",
-        path: "/products/dashboard"
-    }
-];
 
 const Routing = () => {
     return (
         <Router>
             <>
-            <Navbar pages={pages} settings={settings} />
+            <Navbar pages={pages} />
             <Routes>
                 <Route path="/login" element={<Login/>}/>
                 <Route path='/' element={<PrivateRoute/>}>

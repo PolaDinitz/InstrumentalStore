@@ -17,8 +17,8 @@ const Cart = () => {
         </Typography>
       </Paper>
       {cartProducts.map((item: CartProduct) => (
-          <Box sx={{ margin: "5px" }}>
-            <CartItem key={item._id} cartItem={item} />
+          <Box key={item._id} sx={{ margin: "5px" }}>
+            <CartItem cartItem={item} />
           </Box>
       ))}
     </Container>
