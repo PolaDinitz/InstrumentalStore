@@ -1,19 +1,24 @@
 import * as React from "react";
 import {
   AppBar,
-  Box,
-  Toolbar,
-  IconButton,
-  Typography,
-  Menu,
-  Container,
   Avatar,
+  Badge,
+  Box,
   Button,
-  Tooltip,
+  Container,
+  IconButton,
+  Menu,
   MenuItem,
+  Toolbar,
+  Tooltip,
+  Typography,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
+import PianoIcon from '@mui/icons-material/Piano';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import {useSelector} from "react-redux";
+import {selectCartItemsCount} from "./redux/Cart/cart.selectors";
 
 interface Page {
   name: string;
@@ -49,17 +54,20 @@ const Navbar = (props: NavbarProps) => {
 
   const { pages, settings } = { ...props };
 
+  const cartTotalItems = useSelector(selectCartItemsCount);
+
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{marginBottom: "20px"}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
+          <PianoIcon/>
           <Typography
-            variant="h6"
+            variant="h5"
             noWrap
             component="div"
             sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
           >
-            LOGO
+            Instrumentore
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -92,9 +100,9 @@ const Navbar = (props: NavbarProps) => {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
+              {pages.map((page: Page) => (
                 <MenuItem key={page.name} onClick={handleCloseNavMenu}>
-                  <Link to={page.path}>
+                  <Link style={{ textDecoration: 'none' }} to={page.path}>
                     <Typography textAlign="center">{page.name}</Typography>
                   </Link>
                 </MenuItem>
@@ -102,17 +110,17 @@ const Navbar = (props: NavbarProps) => {
             </Menu>
           </Box>
           <Typography
-            variant="h6"
+            variant="h5"
             noWrap
             component="div"
             sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
           >
-            LOGO
+            Instrumentore
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Link key={page.name} to={page.path}>
-              <Button
+            {pages.map((page: Page) => (
+              <Link style={{ textDecoration: 'none' }} key={page.name} to={page.path}>
+                <Button
                 key={page.name}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: "white", display: "block" }}
@@ -122,8 +130,18 @@ const Navbar = (props: NavbarProps) => {
               </Link>
             ))}
           </Box>
-
           <Box sx={{ flexGrow: 0 }}>
+            <Link style={{ textDecoration: 'inherit', color: 'inherit' }} to='/cart'>
+              <IconButton sx={{ marginRight: "10px" }}
+                  size="large"
+                  aria-label="show cart"
+                  color="inherit"
+              >
+                <Badge badgeContent={cartTotalItems} color="error">
+                  <ShoppingCartIcon />
+                </Badge>
+              </IconButton>
+            </Link>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />

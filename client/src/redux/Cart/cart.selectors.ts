@@ -2,7 +2,7 @@ import {createSelector, Selector} from 'reselect';
 import {RootState} from '../../type';
 import {CartProduct, CartState} from "./cart.model";
 
-const selectCart = (state: RootState): CartState => state.cart;
+const selectCart = (state: RootState): CartState => state.cartState;
 
 export const selectCartItems: Selector<RootState, CartProduct[]> = createSelector(
   [selectCart],

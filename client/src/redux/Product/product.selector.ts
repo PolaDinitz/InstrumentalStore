@@ -1,9 +1,6 @@
-import {Product, productsAdapter, ProductsState} from "./product.model";
-import {EntityState} from "@reduxjs/toolkit";
+import {productsAdapter} from "./product.model";
 import {RootState} from "../../type";
 
-export const {
-    selectAll: selectAllProducts,
-    selectById: selectProductById,
-    selectIds: selectProductIds
-} = productsAdapter.getSelectors<EntityState<Product>>((state) => state)
+export const productsSelector = productsAdapter.getSelectors<RootState>(
+    (state) => state.productsState
+)

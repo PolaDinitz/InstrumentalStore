@@ -4,18 +4,15 @@ import Catalog from './components/Catalog/Catalog';
 import Cart from './components/Cart/Cart';
 
 import Navbar from "./Navbar";
+import Login from "./components/Login/Login";
 
 const pages = [
   {
     name: "Catalog",
     path: "/catalog",
-  },
-  {
-    name: "Cart",
-    path: "/cart",
-  },
+  }
 ];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const settings = ["Dashboard", "Logout"];
 
 const Routing = () => {
   return (
@@ -26,6 +23,7 @@ const Routing = () => {
         <Route path="/" element={<Catalog/>}/>
         <Route path="/catalog" element={<Catalog/>}/>
         <Route path="/cart" element={<Cart/>}/>
+        <Route path="/login" element={<Login/>}/>
       </Routes>
       </>
     </Router>

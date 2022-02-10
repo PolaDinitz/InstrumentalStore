@@ -21,7 +21,7 @@ const cartReducer: Reducer<CartState, AnyAction> = (state = initialState, action
       return {
         ...state,
         cartItems: state.cartItems.filter(
-          (item: CartProduct) => item.id !== payload.id
+          (item: CartProduct) => item._id !== payload._id
         )
       }
 

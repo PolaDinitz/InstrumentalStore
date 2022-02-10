@@ -34,7 +34,7 @@ export class InstrumentController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   async getInstruments(@Request() req: any){
     return this.instrumentService.getInstruments();
-}
+  }
 
   @Get(':id')
   @Roles(Role.Admin, Role.User)

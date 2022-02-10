@@ -1,23 +1,27 @@
 import CartItem from "./CartItem/CartItem";
 import {CartProduct} from "../../redux/Cart/cart.model";
-
-const img_url =
-  "https://www.google.com/url?sa=i&url=https%3A%2F%2Fcommons.wikimedia.org%2Fwiki%2FFile%3AReact-icon.svg&psig=AOvVaw1ymjZayJQZVjw1P69aS15M&ust=1644081064216000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCKjwhLDF5vUCFQAAAAAdAAAAABAD";
-
-const initialState: CartProduct[] = [
-  { instrumentName: "bla", description: "bla", category: "Drums", price: 20, id: "bla1", photoUrl: img_url, quantity: 1 },
-  { instrumentName: "blabla", description: "bla", category: "Drums", price: 30, id: "bla2", photoUrl: img_url, quantity: 1 },
-  { instrumentName: "blablabla", description: "bla", category: "Drums", price: 40, id: "bla3", photoUrl: img_url, quantity: 1 },
-  { instrumentName: "blablablabla", description: "bla", category: "Drums", price: 50, id: "bla4", photoUrl: img_url, quantity: 1 },
-];
+import {useSelector} from "react-redux";
+import {selectCartItems} from "../../redux/Cart/cart.selectors";
+import {Box, Container, Paper, Typography} from "@mui/material";
 
 const Cart = () => {
+  const cartProducts: CartProduct[] = useSelector(selectCartItems);
   return (
-    <div>
-      {initialState.map((item) => (
-          <CartItem key={item.id} cartItem={item} />
-        ))}
-      </div>
+    <Container sx={{display: "flex", flexDirection: "column", alignItems: "flex-start"}}>
+      <Paper color="grey" elevation={0} sx={{ width: "100%", padding: "10px", margin: "10px"}}>
+        <Typography variant="h3" component="h3">
+          Your cart
+        </Typography>
+        <Typography variant="subtitle1" component="h6">
+          Let's check out!
+        </Typography>
+      </Paper>
+      {cartProducts.map((item: CartProduct) => (
+          <Box sx={{ margin: "5px" }}>
+            <CartItem key={item._id} cartItem={item} />
+          </Box>
+      ))}
+    </Container>
   );
 }
 
