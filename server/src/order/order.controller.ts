@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Put, Request, UnauthorizedException, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, Request, UnauthorizedException, UseGuards } from "@nestjs/common";
 import { OrderService } from "./order.service";
 import { CreateOrderDto } from "./dto/create-order.dto";
 import { Roles } from "src/authorization/roles.decorator";
@@ -46,7 +46,7 @@ export class OrderController {
     return this.orderService.deleteOrder(id);
   }
 
-  @Put()
+  @Post()
   @Roles(Role.Admin, Role.User)
   @UseGuards(JwtAuthGuard, RolesGuard)
   async createOrder(@Body() createOrderDto: CreateOrderDto){

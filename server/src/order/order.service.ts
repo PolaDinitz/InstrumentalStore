@@ -32,10 +32,12 @@ export class OrderService {
   }
 
   public async createOrder(createOrderDto: CreateOrderDto): Promise<Order>{
+    console.log("create order");
     const newOrder = new this.orderModel({
       userEmail: createOrderDto.userEmail,
       itemList: createOrderDto.itemList,
       orderAddress: createOrderDto.orderAddress,
+      total: createOrderDto.total,
     });
     return newOrder.save();
   }
