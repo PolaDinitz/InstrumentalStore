@@ -24,6 +24,8 @@ import {AppDispatch, RootState} from "../../type";
 import {categoryActions} from "../../redux/Category/category.actions";
 import {InputError} from "../../models/inputError.model";
 import {Category} from "../../redux/Category/category.model";
+import {userActions} from "../../redux/User/user.actions";
+import {productsActions} from "../../redux/Product/product.actions";
 
 const AddProduct = () => {
     const dispatch = useDispatch<AppDispatch>()
@@ -53,13 +55,18 @@ const AddProduct = () => {
     const description = useFormInput('');
     const price = useFormInput('');
     const [category, setCategory] = useState('');
-    const [image, setImage] = useState(null);
+    const [image, setImage] = useState(undefined);
     const [error, setError] = useState(errorInitialState);
 
     const handleAddInstrument = (event: any) => {
         event.preventDefault();
         if (validateAddInstrument()) {
-
+            dispatch(productsActions.addProduct({
+                instrumentName: instrumentName.value,
+                description: description.value,
+                category: category,
+                price: +price.value,
+            }, image));
         }
     }
 
@@ -204,7 +211,7 @@ const AddProduct = () => {
     );
 }
 
-const useFormInput = (initialValue: String) => {
+const useFormInput = (initialValue: string) => {
     const [value, setValue] = useState(initialValue);
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {

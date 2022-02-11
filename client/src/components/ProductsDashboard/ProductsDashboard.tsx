@@ -15,16 +15,26 @@ import {DataGrid, GridColDef, GridRenderCellParams, GridValueGetterParams} from 
 import {Delete as DeleteIcon, Edit as EditIcon} from '@mui/icons-material';
 import {Link} from "react-router-dom";
 import {DialogStateModel} from "../../models/dialogState.model";
+import {Product} from "../../redux/Product/product.model";
+import {useDispatch, useSelector} from "react-redux";
+import {productsSelector} from "../../redux/Product/product.selector";
+import useUpdateEffect from "../../utils/use-update-effect";
+import {productsActions} from "../../redux/Product/product.actions";
 
 const ProductsDashboard = () => {
+    const dispatch = useDispatch();
     const [dialogState, setDialogState] = useState({isOpen: false} as DialogStateModel);
+
+    useUpdateEffect(() => {
+        dispatch(productsActions.loadProducts());
+    },[])
 
     const columns: GridColDef[] = [
         {
-            field: 'id',
+            field: '_id',
             headerName: 'ID',
             width: 250,
-            flex: 1
+            flex: 3
         },
         {
             field: 'instrumentName',
@@ -85,7 +95,7 @@ const ProductsDashboard = () => {
                         variant="contained"
                         color="error"
                         startIcon={<DeleteIcon />}
-                        onClick={() => {deleteProduct(params.row["id"])}}>
+                        onClick={() => {deleteProduct(params.row["_id"])}}>
                             Delete
                     </Button>
                 );
@@ -93,24 +103,9 @@ const ProductsDashboard = () => {
         }
     ];
 
-    const rows = [
-        { id: '1', instrumentName: 'Piano', description: 'A nice Piano', category: 'Keyboard', price: 3000 },
-        { id: '2', instrumentName: 'Classic Guitar', description: 'A nice Guitar', category: 'Guitar', price: 2890 },
-        { id: '3', instrumentName: 'Classic Guitar', description: 'A nice Guitar', category: 'Guitar', price: 2890 },
-        { id: '4', instrumentName: 'Classic Guitar', description: 'A nice Guitar', category: 'Guitar', price: 2890 },
-        { id: '5', instrumentName: 'Classic Guitar', description: 'A nice Guitar', category: 'Guitar', price: 2890 },
-        { id: '6', instrumentName: 'Classic Guitar', description: 'A nice Guitar', category: 'Guitar', price: 2890 },
-        { id: '7', instrumentName: 'Classic Guitar', description: 'A nice Guitar', category: 'Guitar', price: 2890 },
-        { id: '8', instrumentName: 'Classic Guitar', description: 'A nice Guitar', category: 'Guitar', price: 2890 },
-        { id: '9', instrumentName: 'Classic Guitar', description: 'A nice Guitar', category: 'Guitar', price: 2890 },
-        { id: '10', instrumentName: 'Classic Guitar', description: 'A nice Guitar', category: 'Guitar', price: 2890 },
-        { id: '11', instrumentName: 'Classic Guitar', description: 'A nice Guitar', category: 'Guitar', price: 2890 },
-        { id: '12', instrumentName: 'Classic Guitar', description: 'A nice Guitar', category: 'Guitar', price: 2890 },
-        { id: '13', instrumentName: 'Classic Guitar', description: 'A nice Guitar', category: 'Guitar', price: 2890 },
-        { id: '14', instrumentName: 'Classic Guitar', description: 'A nice Guitar', category: 'Guitar', price: 2890 },
-    ];
+    const rows = useSelector(productsSelector.selectAll);
 
-    const deleteProduct = (id: String) => {
+    const deleteProduct = (id: string) => {
         setDialogState({
             isOpen: true,
             confirmCallback: () => confirmDeleteProduct(id),
@@ -118,12 +113,12 @@ const ProductsDashboard = () => {
         });
     }
 
-    const confirmDeleteProduct = (id: String) => {
-        alert(id + " Deleted")
+    const confirmDeleteProduct = (id: string) => {
+        dispatch(productsActions.deleteProduct(id));
         handleDialogClose();
     }
 
-    const editProduct = (id: String) => {
+    const editProduct = (id: string) => {
         alert("Editing " + id)
     }
 
@@ -147,6 +142,7 @@ const ProductsDashboard = () => {
                         </Button>
                     </Link>
                     <DataGrid
+                        getRowId={row => row._id}
                         rows={rows}
                         columns={columns}
                         pageSize={10}
