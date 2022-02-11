@@ -6,7 +6,7 @@ export class CreateOrderDto {
     userEmail: string;
     @IsArray()
     @IsNotEmpty()
-    itemList: [{instrumentName: string,quantity:number}];
+    itemList: [{instrumentName: string,quantity:number, price: number}];
     @IsNotEmpty()
     orderAddress: string;
 }

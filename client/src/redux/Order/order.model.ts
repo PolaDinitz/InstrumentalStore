@@ -4,8 +4,9 @@ export interface Order {
     _id: string,
     userEmail: string,
     date: Date,
-    itemList: Array<{instrumentName: string, quantity:number}>,
+    itemList: Array<{instrumentName: string, quantity:number, price: number}>,
     orderAddress: string
+    total: number
 }
 
 export interface OrdersState extends EntityState<Order> {
