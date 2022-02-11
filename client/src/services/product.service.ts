@@ -15,12 +15,7 @@ const getProducts = () => {
 
 const addProduct = (product: Partial<Product>, image?: File) => {
     const formData = new FormData();
-    formData.set('instrumentName', product.instrumentName!);
-    formData.set('description', product.description!);
-    formData.set('category', product.category!);
-    formData.set('price', product.price!.toString());
-    if (image)
-        formData.set('image', image, image.name);
+    buildFormData(product, formData, image);
     return axios.put(`${config.apiUrl}/instrument`, formData, { headers:
             {
                 "Authorization" : `Bearer ${authHeader()}`,
@@ -34,6 +29,22 @@ const addProduct = (product: Partial<Product>, image?: File) => {
         })
 }
 
+const editProduct = (product: Partial<Product>, image?: File) => {
+    const formData = new FormData();
+    buildFormData(product, formData, image);
+    return axios.patch(`${config.apiUrl}/instrument/` + product._id, formData, { headers:
+            {
+                "Authorization" : `Bearer ${authHeader()}`,
+                'Content-Type': 'multipart/form-data'
+            }})
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error: AxiosError) => {
+            throw new Error("Something went wrong while trying to edit a product, " + error.response?.data?.message);
+        })
+}
+
 const deleteProduct = (id: string) => {
     return axios.delete(`${config.apiUrl}/instrument/` + id, { headers: {"Authorization" : `Bearer ${authHeader()}`}})
         .then((response) => {
@@ -44,8 +55,22 @@ const deleteProduct = (id: string) => {
         })
 }
 
+const buildFormData = (product: Partial<Product>, formData: FormData, image?: File) => {
+    if (product?.instrumentName)
+        formData.set('instrumentName', product.instrumentName!);
+    if (product?.description)
+        formData.set('description', product.description!);
+    if (product?.category)
+        formData.set('category', product.category!);
+    if (product?.price)
+        formData.set('price', product.price!.toString());
+    if (image)
+        formData.set('image', image, image.name);
+}
+
 export const productService = {
     getProducts,
     addProduct,
-    deleteProduct
+    deleteProduct,
+    editProduct
 };

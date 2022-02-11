@@ -9,6 +9,7 @@ import ProductsDashboard from "./components/ProductsDashboard/ProductsDashboard"
 import AddProduct from "./components/AddProduct/AddProduct";
 import PrivateRoute from "./PrivateRouter";
 import Register from "./components/Register/Register";
+import EditProduct from "./components/EditProduct/EditProduct";
 
 const pages = [
     {
@@ -39,6 +40,9 @@ const Routing = () => {
                 </Route>
                 <Route path='/products/add' element={<PrivateRoute/>}>
                     <Route path='/products/add' element={<AddProduct/>}/>
+                </Route>
+                <Route path='/products/edit' element={<PrivateRoute/>}>
+                    <Route path='/products/edit' element={<EditProduct/>}/>
                 </Route>
             </Routes>
             </>

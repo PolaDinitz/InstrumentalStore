@@ -13,13 +13,15 @@ import {
 } from '@mui/material';
 import {DataGrid, GridColDef, GridRenderCellParams, GridValueGetterParams} from '@mui/x-data-grid';
 import {Delete as DeleteIcon, Edit as EditIcon} from '@mui/icons-material';
-import {Link} from "react-router-dom";
+import {Link, Navigate} from "react-router-dom";
 import {DialogStateModel} from "../../models/dialogState.model";
 import {Product} from "../../redux/Product/product.model";
 import {useDispatch, useSelector} from "react-redux";
 import {productsSelector} from "../../redux/Product/product.selector";
 import useUpdateEffect from "../../utils/use-update-effect";
 import {productsActions} from "../../redux/Product/product.actions";
+import AddProduct from "../AddProduct/AddProduct";
+import {render} from "react-dom";
 
 const ProductsDashboard = () => {
     const dispatch = useDispatch();
@@ -72,13 +74,15 @@ const ProductsDashboard = () => {
             disableColumnMenu: true,
             renderCell: (params: GridRenderCellParams) => {
                 return (
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        startIcon={<EditIcon />}
-                        onClick={() => {editProduct(params.row["id"])}}>
+                    <Link to="/products/edit" style={{ textDecoration: "inherit", color: "inherit" }}>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            startIcon={<EditIcon />}
+                            onClick={() => {editProduct(params.row["_id"])}}>
                             Edit
-                    </Button>
+                        </Button>
+                    </Link>
                 );
             }
         },
@@ -119,7 +123,7 @@ const ProductsDashboard = () => {
     }
 
     const editProduct = (id: string) => {
-        alert("Editing " + id)
+        dispatch(productsActions.setSelectedProductId(id));
     }
 
     const handleDialogClose = () => setDialogState({
@@ -128,16 +132,12 @@ const ProductsDashboard = () => {
         cancelCallback: () => {},
     });
 
-    const addProduct = () => {
-        window.location.replace("/products/add")
-    }
-
     return (
         <Container>
             <Grid item xs={12} sx={{ margin: "50px" }}>
                 <Paper sx={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
                     <Link to="/products/add" style={{ textDecoration: "none", alignSelf: "self-end", margin: "5px" }}>
-                        <Button color="success" variant="contained" onClick={addProduct}>
+                        <Button color="success" variant="contained">
                             Add Product
                         </Button>
                     </Link>

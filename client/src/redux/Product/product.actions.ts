@@ -16,6 +16,12 @@ const deleteProductRequestAction = () => { return { type: productsActionTypes.DE
 const deleteProductSuccessAction = (id: string) => { return { type: productsActionTypes.DELETE_PRODUCT_SUCCESS, payload: id } }
 const deleteProductFailureAction = (error: Error) => { return { type: productsActionTypes.DELETE_PRODUCT_FAILURE, payload: error } }
 
+const editProductRequestAction = () => { return { type: productsActionTypes.EDIT_PRODUCT_REQUEST } }
+const editProductSuccessAction = (product: Product) => { return { type: productsActionTypes.EDIT_PRODUCT_SUCCESS, payload: product } }
+const editProductFailureAction = (error: Error) => { return { type: productsActionTypes.EDIT_PRODUCT_FAILURE, payload: error } }
+
+const setSelectedProductId = (id: string) => { return { type: productsActionTypes.SET_SELECTED_PRODUCT_ID, payload: id } }
+
 const loadProducts = () => {
   return (dispatch: AppDispatch) => {
     dispatch(loadProductsRequestAction);
@@ -46,6 +52,22 @@ const addProduct = (product: Partial<Product>, image?: File) => {
     };
 }
 
+const editProduct = (product: Partial<Product>, image?: File) => {
+    return (dispatch: AppDispatch) => {
+        dispatch(editProductRequestAction());
+        productService.editProduct(product, image)
+            .then((product: Product) => {
+                dispatch(editProductSuccessAction(product));
+                toast.success("You have edited the product successfully!");
+                window.location.replace("/products/dashboard");
+            })
+            .catch((error: Error) => {
+                dispatch(editProductFailureAction(error));
+                toast.error(error.message);
+            });
+    };
+}
+
 const deleteProduct = (id: string) => {
     return (dispatch: AppDispatch) => {
     dispatch(deleteProductRequestAction());
@@ -64,5 +86,7 @@ const deleteProduct = (id: string) => {
 export const productsActions = {
     loadProducts,
     addProduct,
-    deleteProduct
+    deleteProduct,
+    setSelectedProductId,
+    editProduct
 };

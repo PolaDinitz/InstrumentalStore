@@ -32,7 +32,7 @@ export class InstrumentService {
 
   public async updateInstrument(id : string, updateInstrumentDto: UpdateInstrumentDto, imageFile: Express.Multer.File){
     const oldInstrument = await this.getInstrumentByID(id)
-    if (imageFile) {
+    if (imageFile && oldInstrument.photoUrl !== DEFAULT_IMAGE_FILE_NAME) {
       fs.unlinkSync(IMAGES_ASSETS_PATH + oldInstrument.photoUrl);
     }
     const newInstrument = {

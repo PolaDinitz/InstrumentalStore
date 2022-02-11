@@ -48,6 +48,11 @@ export class InstrumentController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @UseInterceptors(FileInterceptor('image'))
   async updateInstrument(@Request() req: any, @Param('id') id: string, @Body() updateInstrumentDto: UpdateInstrumentDto, @UploadedFile() imageFile: Express.Multer.File) {
+    const instrumentExist = await this.instrumentService.getInstrumentByName(updateInstrumentDto.instrumentName);
+    const instrumentToUpdate = await this.instrumentService.getInstrumentByID(id);
+    if(instrumentExist && instrumentToUpdate.instrumentName !== instrumentExist.instrumentName) {
+      throw new HttpException('instrument already exists', HttpStatus.BAD_REQUEST);
+    }
     return this.instrumentService.updateInstrument(id, updateInstrumentDto, imageFile);
   }
 

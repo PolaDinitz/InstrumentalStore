@@ -39,7 +39,10 @@ const SingleProduct = (props: Props) => {
                 {product.description}
               </Typography>
             </CardContent>
-            <CardActions sx={{display: "flex", justifyContent: "flex-end"}}>
+            <CardActions sx={{display: "flex", justifyContent: "space-between" }}>
+              <Typography variant="body2" color="text.secondary">
+                {product.price}$
+              </Typography>
               <Button variant="text" size="small" onClick={addProductToCart}>Add To Cart</Button>
             </CardActions>
           </Card>
