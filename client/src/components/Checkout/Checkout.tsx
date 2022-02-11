@@ -2,8 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectCartTotal, selectCartItemsCount, selectCartItems } from "../../redux/Cart/cart.selectors";
 import { Box, Button, InputAdornment, Paper, TextField, Typography } from "@mui/material";
 import InputErrorMessage from '../../enums/input-error-message';
-import { AppDispatch, RootState } from "../../type";
-import Popup, { PopupBody, PopupFooter, PopupHeader } from './popupModel/popup';
+import { AppDispatch } from "../../type";
 import {
     House as HouseIcon,
     Email as EmailIcon,
@@ -20,12 +19,10 @@ import { useNavigate } from "react-router-dom";
 const Cart = () => {
     let navigate = useNavigate(); 
 
-    const [showPopup, setShowPopup] = useState(false);
     const dispatch = useDispatch<AppDispatch>()
     const cartTotal: Number = useSelector(selectCartTotal);
     const itemCount: Number = useSelector(selectCartItemsCount);
     const cartItems: Array<CartProduct> = useSelector(selectCartItems);
-    const user = useSelector((state: RootState) => state.userState.user);
     const errorInitialState = {
         email: {} as InputError,
         address: {} as InputError,
@@ -61,7 +58,7 @@ const Cart = () => {
         event.preventDefault();
         if (validateOrderForm()) {
             dispatch(ordersActions.placeOrder(email.value, Date().toLocaleLowerCase(), cartItems, address.value, cartTotal.valueOf()));
-            cartActions.clearCart();
+            dispatch(cartActions.clearCart());
             navigate("/");
         }
         //    
