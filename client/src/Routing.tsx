@@ -9,11 +9,16 @@ import ProductsDashboard from "./components/ProductsDashboard/ProductsDashboard"
 import AddProduct from "./components/AddProduct/AddProduct";
 import PrivateRoute from "./PrivateRouter";
 import Register from "./components/Register/Register";
+import OrdersHistory from "./components/OrdersHistory/OrdersHistory";
 
 const pages = [
     {
-    name: "Catalog",
-    path: "/catalog",
+        name: "Catalog",
+        path: "/catalog",
+    },
+    {
+        name: "Orders History",
+        path: "/OrdersHistory"
     }
 ];
 
@@ -39,6 +44,9 @@ const Routing = () => {
                 </Route>
                 <Route path='/products/add' element={<PrivateRoute/>}>
                     <Route path='/products/add' element={<AddProduct/>}/>
+                </Route>
+                <Route path='/OrdersHistory' element={<PrivateRoute/>}>
+                    <Route path='/OrdersHistory' element={<OrdersHistory/>}/>
                 </Route>
             </Routes>
             </>
