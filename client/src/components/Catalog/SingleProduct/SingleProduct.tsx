@@ -25,6 +25,7 @@ const SingleProduct = (props: Props) => {
             <CardMedia
               component="img"
               height="140"
+              sx={{ objectFit: "contain" }}
               src={config.apiUrl + '/' + product.photoUrl}
               alt={product.instrumentName}
             />

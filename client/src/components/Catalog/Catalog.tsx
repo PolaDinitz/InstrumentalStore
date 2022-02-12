@@ -28,7 +28,7 @@ const Catalog = () => {
     }
 
     return (
-    <Container sx={{display: "flex", flexDirection: "column", alignItems: "center"}}>
+    <Container sx={{display: "flex", flexDirection: "column", alignItems: "center", marginBottom: "20px" }}>
         <Paper color="grey" elevation={0} sx={{ width: "100%", padding: "10px", margin: "10px"}}>
             <Typography variant="h3" component="h3">
                 Instruments Catalog
