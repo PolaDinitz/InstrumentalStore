@@ -1,10 +1,16 @@
 import {createEntityAdapter, EntityState} from "@reduxjs/toolkit";
 
+export interface ItemInOrder {
+    instrumentName: string,
+    price: number,
+    quantity: number
+}
+
 export interface Order {
     _id: string,
     userEmail: string,
     date: Date,
-    itemList: Array<{instrumentName: string, quantity:number, price: number}>,
+    itemList: Array<ItemInOrder>,
     orderAddress: string
     total: number
 }

@@ -182,11 +182,18 @@ const Navbar = (props: NavbarProps) => {
                   </Link>
               }
               {isLoggedIn &&
-                  <MenuItem key="Logout" onClick={handleLogout}>
-                    <Typography>
-                      Logout
-                    </Typography>
-                  </MenuItem>
+                  <div>
+                    <Link style={{ color: 'inherit', textDecoration: 'none' }} to="/orders/history">
+                      <MenuItem key="OrdersHistory" onClick={handleCloseUserMenu}>
+                        Orders history
+                      </MenuItem>
+                    </Link>
+                    <MenuItem key="Logout" onClick={handleLogout}>
+                      <Typography>
+                        Logout
+                      </Typography>
+                    </MenuItem>
+                  </div>
               }
               {!isLoggedIn &&
                   <div>

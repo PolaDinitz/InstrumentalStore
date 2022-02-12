@@ -2,7 +2,6 @@ import React from "react";
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import Catalog from './components/Catalog/Catalog';
 import Cart from './components/Cart/Cart';
-import Checkout from './components/Checkout/Checkout';
 import Navbar from "./Navbar";
 import Login from "./components/Login/Login";
 import ProductsDashboard from "./components/ProductsDashboard/ProductsDashboard";
@@ -16,10 +15,6 @@ const pages = [
     {
         name: "Catalog",
         path: "/catalog",
-    },
-    {
-        name: "Orders History",
-        path: "/OrdersHistory"
     }
 ];
 
@@ -40,17 +35,14 @@ const Routing = () => {
                     <Route path='/cart' element={<PrivateRoute />}>
                         <Route path='/cart' element={<Cart />} />
                     </Route>
-                    <Route path='/checkout' element={<PrivateRoute />}>
-                        <Route path='/checkout' element={<Checkout />} />
-                    </Route>
                     <Route path='/products/dashboard' element={<PrivateRoute />}>
                         <Route path='/products/dashboard' element={<ProductsDashboard />} />
                     </Route>
                     <Route path='/products/add' element={<PrivateRoute />}>
                         <Route path='/products/add' element={<AddProduct />} />
                     </Route>
-                    <Route path='/OrdersHistory' element={<PrivateRoute />}>
-                        <Route path='/OrdersHistory' element={<OrdersHistory />} />
+                    <Route path='/orders/history' element={<PrivateRoute />}>
+                        <Route path='/orders/history' element={<OrdersHistory />} />
                     </Route>
                     <Route path='/products/edit' element={<PrivateRoute/>}>
                         <Route path='/products/edit' element={<EditProduct/>}/>
