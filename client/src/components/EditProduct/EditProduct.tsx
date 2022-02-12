@@ -12,7 +12,7 @@ import {
     TextField,
     Typography
 } from '@mui/material';
-import {Add as AddIcon, AttachMoney as AttachMoneyIcon, FormatColorText as TextInputIcon} from '@mui/icons-material';
+import {AttachMoney as AttachMoneyIcon, FormatColorText as TextInputIcon} from '@mui/icons-material';
 import React, {ChangeEvent, useState} from 'react'
 import {Box} from '@mui/system';
 import {useDispatch, useSelector} from 'react-redux';
@@ -24,9 +24,11 @@ import {AppDispatch, RootState} from "../../type";
 import {categoryActions} from "../../redux/Category/category.actions";
 import {InputError} from "../../models/inputError.model";
 import {Category} from "../../redux/Category/category.model";
+import {selectSelectedProduct} from "../../redux/Product/product.selector";
+import EditIcon from '@mui/icons-material/Edit';
 import {productsActions} from "../../redux/Product/product.actions";
 
-const AddProduct = () => {
+const EditProduct = () => {
     const dispatch = useDispatch<AppDispatch>()
 
     useUpdateEffect(() => {
@@ -34,6 +36,7 @@ const AddProduct = () => {
     },[])
 
     const categories = useSelector((state: RootState) => state.categoryState.categories);
+    const productToEdit = useSelector(selectSelectedProduct)
 
     const paperStyle = { 
         padding: 20,
@@ -50,26 +53,27 @@ const AddProduct = () => {
         price: {} as InputError,
     }
 
-    const instrumentName = useFormInput('');
-    const description = useFormInput('');
-    const price = useFormInput('');
-    const [category, setCategory] = useState('');
+    const instrumentName = useFormInput(productToEdit?.instrumentName || '');
+    const description = useFormInput(productToEdit?.description || '');
+    const price = useFormInput(productToEdit?.price.toString() || '');
+    const [category, setCategory] = useState(productToEdit?.category || '');
     const [image, setImage] = useState(undefined);
     const [error, setError] = useState(errorInitialState);
 
-    const handleAddInstrument = (event: any) => {
+    const handleEditInstrument = (event: any) => {
         event.preventDefault();
-        if (validateAddInstrument()) {
-            dispatch(productsActions.addProduct({
+        if (validateEditInstrument()) {
+            dispatch(productsActions.editProduct({
+                _id: productToEdit?._id,
                 instrumentName: instrumentName.value,
                 description: description.value,
                 category: category,
                 price: +price.value,
-            }, image));
+            }, image))
         }
     }
 
-    const validateAddInstrument = (): boolean => {
+    const validateEditInstrument = (): boolean => {
         let isValid = true;
         let inputErrors = {...errorInitialState};
         if (Validator.isFieldEmpty(instrumentName.value)) {
@@ -116,8 +120,8 @@ const AddProduct = () => {
         <Paper elevation={10} style={paperStyle}>
             <Box sx={{display: "flex", flexDirection: "column", alignItems: "center", alignContent: "space-evenly", justifyContent: "space-around"}}>
                 <Box sx={{display: "flex", flexDirection: "column", alignItems: "center"}}>
-                    <Avatar sx={{ bgcolor: 'deepskyblue', width: 56, height: 56 }}><AddIcon/></Avatar>
-                    <h1>Add Product</h1>
+                    <Avatar sx={{ bgcolor: 'deepskyblue', width: 56, height: 56 }}><EditIcon/></Avatar>
+                    <h1>Edit Product</h1>
                 </Box>
                 <TextField
                     {...instrumentName}
@@ -202,8 +206,8 @@ const AddProduct = () => {
                     sx={{margin: "10px"}}
                     type="submit"
                     variant="contained"
-                    onClick={handleAddInstrument}>
-                        Add Instrument
+                    onClick={handleEditInstrument}>
+                        Edit Instrument
                 </Button>
             </Box>
         </Paper>
@@ -223,4 +227,4 @@ const useFormInput = (initialValue: string) => {
     }
 }
 
-export default AddProduct;
+export default EditProduct;

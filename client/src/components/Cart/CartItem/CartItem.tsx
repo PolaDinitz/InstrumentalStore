@@ -48,6 +48,9 @@ const CartItem = (props: CartItemProps) => {
               <Typography variant="body2" color="text.secondary">
                 Quantity: {cartItem.quantity}
               </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Price: {cartItem.price}$
+              </Typography>
             </Grid>
             <Grid item sx={{display: "flex"}}>
               <Button onClick={removeItem} variant="outlined" size="small" sx={{ margin: "5px" }} color="error">
@@ -59,8 +62,8 @@ const CartItem = (props: CartItemProps) => {
             </Grid>
           </Grid>
           <Grid item>
-            <Typography variant="subtitle1" component="div">
-              {cartItem.price}$
+            <Typography variant="subtitle1">
+              Total: {cartItem.quantity * cartItem.price}$
             </Typography>
           </Grid>
         </Grid>

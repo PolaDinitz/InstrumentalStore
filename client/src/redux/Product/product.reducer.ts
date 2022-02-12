@@ -20,6 +20,51 @@ const productsReducer: Reducer<ProductsState, AnyAction> = (state = initialState
         ...state
       };
 
+    case productsActionTypes.ADD_PRODUCT_REQUEST:
+      return {
+        ...state
+      };
+
+    case productsActionTypes.ADD_PRODUCT_SUCCESS:
+      return productsAdapter.addOne(state, payload);
+
+    case productsActionTypes.ADD_PRODUCT_FAILURE:
+      return {
+        ...state
+      };
+
+    case productsActionTypes.DELETE_PRODUCT_REQUEST:
+      return {
+        ...state
+      };
+
+    case productsActionTypes.DELETE_PRODUCT_SUCCESS:
+      return productsAdapter.removeOne(state, payload);
+
+    case productsActionTypes.DELETE_PRODUCT_FAILURE:
+      return {
+        ...state
+      };
+
+    case productsActionTypes.SET_SELECTED_PRODUCT_ID:
+      return {
+        ...state,
+        selectedProductId: payload
+      };
+
+    case productsActionTypes.EDIT_PRODUCT_REQUEST:
+      return {
+        ...state
+      };
+
+    case productsActionTypes.EDIT_PRODUCT_SUCCESS:
+      return productsAdapter.updateOne(state, payload);
+
+    case productsActionTypes.EDIT_PRODUCT_FAILURE:
+      return {
+        ...state
+      };
+
     default:
       return state;
   }

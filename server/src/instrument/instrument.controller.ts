@@ -22,7 +22,7 @@ import { JwtAuthGuard } from "../authentication/jwt-auth.guard";
 import { Role } from "src/authorization/role.enum";
 import { FileInterceptor } from "@nestjs/platform-express";
 import * as fs from "fs";
-import { IMAGES_ASSETS_PATH } from "../consts/images.consts";
+import { DEFAULT_IMAGE_FILE_NAME, IMAGES_ASSETS_PATH } from "../consts/images.consts";
 
 @Controller('instrument')
 export class InstrumentController {
@@ -48,6 +48,11 @@ export class InstrumentController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @UseInterceptors(FileInterceptor('image'))
   async updateInstrument(@Request() req: any, @Param('id') id: string, @Body() updateInstrumentDto: UpdateInstrumentDto, @UploadedFile() imageFile: Express.Multer.File) {
+    const instrumentExist = await this.instrumentService.getInstrumentByName(updateInstrumentDto.instrumentName);
+    const instrumentToUpdate = await this.instrumentService.getInstrumentByID(id);
+    if(instrumentExist && instrumentToUpdate.instrumentName !== instrumentExist.instrumentName) {
+      throw new HttpException('instrument already exists', HttpStatus.BAD_REQUEST);
+    }
     return this.instrumentService.updateInstrument(id, updateInstrumentDto, imageFile);
   }
 
@@ -56,8 +61,10 @@ export class InstrumentController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   async deleteInstrument(@Request() req: any, @Param('id') id: string) {
     const instrumentToDelete = await this.instrumentService.getInstrumentByID(id);
+    const photoToDelete = instrumentToDelete.photoUrl;
     return this.instrumentService.deleteInstrument(id).then(() => {
-      fs.unlinkSync(IMAGES_ASSETS_PATH + instrumentToDelete.photoUrl);
+      if (photoToDelete !== DEFAULT_IMAGE_FILE_NAME)
+        fs.unlinkSync(IMAGES_ASSETS_PATH + instrumentToDelete.photoUrl);
     })
   }
 
