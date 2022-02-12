@@ -3,6 +3,7 @@ import { userService } from '../../services/user.service';
 import { toast } from 'react-toastify';
 import { User } from './user.model';
 import { AppDispatch } from '../../type';
+import {cartActions} from "../Cart/cart.actions";
 
 const registerRequestAction = () => { return { type: userActionTypes.REGISTER_REQUEST } }
 const registerSuccessAction = () => { return { type: userActionTypes.REGISTER_SUCCESS } }
@@ -48,6 +49,7 @@ const logout = () => {
     return (dispatch: any) => {
         userService.logout();
         dispatch(logoutAction());
+        dispatch(cartActions.clearCart());
         toast.success("Logout Successfully");
     }
 }

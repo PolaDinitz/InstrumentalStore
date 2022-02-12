@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import Catalog from './components/Catalog/Catalog';
 import Cart from './components/Cart/Cart';
 import Checkout from './components/Checkout/Checkout';
@@ -9,16 +9,13 @@ import ProductsDashboard from "./components/ProductsDashboard/ProductsDashboard"
 import AddProduct from "./components/AddProduct/AddProduct";
 import PrivateRoute from "./PrivateRouter";
 import Register from "./components/Register/Register";
+import EditProduct from "./components/EditProduct/EditProduct";
 import OrdersHistory from "./components/OrdersHistory/OrdersHistory";
 
 const pages = [
     {
         name: "Catalog",
         path: "/catalog",
-    },
-    {
-        name: "Checkout",
-        path: "/checkout",
     },
     {
         name: "Orders History",
@@ -54,6 +51,9 @@ const Routing = () => {
                     </Route>
                     <Route path='/OrdersHistory' element={<PrivateRoute />}>
                         <Route path='/OrdersHistory' element={<OrdersHistory />} />
+                    </Route>
+                    <Route path='/products/edit' element={<PrivateRoute/>}>
+                        <Route path='/products/edit' element={<EditProduct/>}/>
                     </Route>
                 </Routes>
             </>

@@ -1,5 +1,5 @@
 import {config} from "../config/config"
-import axios from "axios";
+import axios, {AxiosError} from "axios";
 import {authHeader} from "../utils/auth-headers";
 
 const getCategories = () => {
@@ -7,8 +7,8 @@ const getCategories = () => {
         .then((response) => {
             return response.data;
         })
-        .catch((error: Error) => {
-            throw new Error("Something went wrong while trying to get categories, " + error.message);
+        .catch((error: AxiosError) => {
+            throw new Error("Something went wrong while trying to get categories, " + error.response?.data?.message);
         })
 }
 
