@@ -9,7 +9,7 @@ import {
     DialogContentText,
     DialogTitle,
     Grid,
-    Paper
+    Paper, Tooltip
 } from '@mui/material';
 import {DataGrid, GridColDef, GridRenderCellParams, GridValueGetterParams} from '@mui/x-data-grid';
 import {Delete as DeleteIcon, Edit as EditIcon} from '@mui/icons-material';
@@ -49,9 +49,13 @@ const ProductsDashboard = () => {
             field: 'description',
             headerName: 'Description',
             width: 250,
-            valueGetter: (params: GridValueGetterParams) => `${params.row.description || ''}`,
             sortable: false,
-            flex: 2
+            flex: 2,
+            renderCell: (params: GridRenderCellParams) =>  (
+                <Tooltip title={params.row['description']} >
+                    <span className="table-cell-tooltip">{params.row['description']}</span>
+                </Tooltip>
+            ),
         },
         {
             field: 'category',
