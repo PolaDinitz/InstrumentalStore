@@ -6,13 +6,16 @@ import {Provider} from 'react-redux';
 import reportWebVitals from './reportWebVitals';
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
-import store from './redux/store';
+import {PersistGate} from "redux-persist/integration/react";
+import {store, persistor} from "./redux/store";
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
-      <ToastContainer autoClose={3000} theme='colored'/>
+        <PersistGate loading={null} persistor={persistor}>
+            <App />
+            <ToastContainer autoClose={3000} theme='colored'/>
+        </PersistGate>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')
