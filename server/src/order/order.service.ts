@@ -1,38 +1,36 @@
-import { Inject, Injectable } from "@nestjs/common";
-import { Model } from "mongoose";
-import { CreateOrderDto } from "./dto/create-order.dto";
-import { Order } from "./order.interface";
+import { Inject, Injectable } from '@nestjs/common';
+import { Model } from 'mongoose';
+import { CreateOrderDto } from './dto/create-order.dto';
+import { Order } from './order.interface';
 
 @Injectable()
 export class OrderService {
-
   constructor(
     @Inject('ORDER_MODEL')
     private readonly orderModel: Model<Order>,
-  ){}
+  ) {}
 
   public async getOrders(): Promise<Order[]> {
     return this.orderModel.find().exec();
   }
 
-  public async getOrderById(id: string): Promise<Order>{
+  public async getOrderById(id: string): Promise<Order> {
     return this.orderModel.findById(id).exec();
   }
 
-  public async getOrdersByUserEmail(userEmail: string): Promise<Order[]>{
-    return this.orderModel.find({'userEmail': userEmail}).exec();
+  public async getOrdersByUserEmail(userEmail: string): Promise<Order[]> {
+    return this.orderModel.find({ userEmail: userEmail }).exec();
   }
 
-  public async getOrdersByDate(date: string): Promise<Order[]>{
-    return this.orderModel.find({'date': date}).exec()
+  public async getOrdersByDate(date: string): Promise<Order[]> {
+    return this.orderModel.find({ date: date }).exec();
   }
 
-  public async deleteOrder(id:string){
+  public async deleteOrder(id: string) {
     return this.orderModel.findByIdAndDelete(id).exec();
   }
 
-  public async createOrder(createOrderDto: CreateOrderDto): Promise<Order>{
-    console.log("create order");
+  public async createOrder(createOrderDto: CreateOrderDto): Promise<Order> {
     const newOrder = new this.orderModel({
       userEmail: createOrderDto.userEmail,
       itemList: createOrderDto.itemList,
@@ -41,5 +39,4 @@ export class OrderService {
     });
     return newOrder.save();
   }
-
 }

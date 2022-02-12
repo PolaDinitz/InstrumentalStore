@@ -1,28 +1,22 @@
-import { useDispatch, useSelector } from "react-redux";
-import { selectCartTotal, selectCartItemsCount, selectCartItems } from "../../redux/Cart/cart.selectors";
-import { Box, Button, InputAdornment, Paper, TextField, Typography } from "@mui/material";
+import {useDispatch, useSelector} from "react-redux";
+import {selectCartItems, selectCartItemsCount, selectCartTotal} from "../../redux/Cart/cart.selectors";
+import {Box, Button, InputAdornment, Paper, TextField, Typography} from "@mui/material";
 import InputErrorMessage from '../../enums/input-error-message';
-import { AppDispatch } from "../../type";
-import {
-    House as HouseIcon,
-    Email as EmailIcon,
-} from '@mui/icons-material';
-import { InputError } from "../../models/inputError.model";
-import { ChangeEvent, useState } from "react";
+import {AppDispatch} from "../../type";
+import {Email as EmailIcon, House as HouseIcon,} from '@mui/icons-material';
+import {InputError} from "../../models/inputError.model";
+import {ChangeEvent, useState} from "react";
 import Validator from "../../utils/validator";
-import { ordersActions } from "../../redux/Order/order.actions";
-import { cartActions } from "../../redux/Cart/cart.actions";
+import {ordersActions} from "../../redux/Order/order.actions";
+import {cartActions} from "../../redux/Cart/cart.actions";
 
-import { CartProduct } from "../../redux/Cart/cart.model";
-import { useNavigate } from "react-router-dom";
+import {CartProduct} from "../../redux/Cart/cart.model";
 
 const Cart = () => {
-    let navigate = useNavigate(); 
-
     const dispatch = useDispatch<AppDispatch>()
-    const cartTotal: Number = useSelector(selectCartTotal);
-    const itemCount: Number = useSelector(selectCartItemsCount);
-    const cartItems: Array<CartProduct> = useSelector(selectCartItems);
+    const cartTotal: number = useSelector(selectCartTotal);
+    const itemCount: number = useSelector(selectCartItemsCount);
+    const cartItems: CartProduct[] = useSelector(selectCartItems);
     const errorInitialState = {
         email: {} as InputError,
         address: {} as InputError,
@@ -49,6 +43,13 @@ const Cart = () => {
             }
             isValid = false;
         }
+        if (Validator.isFieldEmpty(address.value)) {
+            inputErrors.address = {
+                hasError: true,
+                errorMessage: InputErrorMessage.EMPTY_INPUT_ERROR
+            }
+            isValid = false;
+        }
 
         setError(inputErrors);
         return isValid;
@@ -57,13 +58,14 @@ const Cart = () => {
     const handleCheckout = (event: any) => {
         event.preventDefault();
         if (validateOrderForm()) {
-            dispatch(ordersActions.placeOrder(email.value, Date().toLocaleLowerCase(), cartItems, address.value, cartTotal.valueOf()));
+            dispatch(ordersActions.placeOrder(
+                email.value,
+                cartItems,
+                address.value,
+                cartTotal));
             dispatch(cartActions.clearCart());
-            navigate("/");
         }
-        //    
     }
-
 
     return (
         <Paper elevation={0} style={paperStyle}>

@@ -29,7 +29,7 @@ export class OrderController {
   }
 
   @Get(':id')
-  @Roles(Role.Admin,Role.User)
+  @Roles(Role.Admin, Role.User)
   @UseGuards(JwtAuthGuard, RolesGuard)
   async getOrder(@Request() req: any, @Param('id') id: string){
     const order = await this.orderService.getOrderById(id);
