@@ -1,4 +1,7 @@
 import * as React from "react";
+import {useEffect, useState} from "react";
+import {Link} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
 import {
   AppBar,
   Avatar,
@@ -14,14 +17,11 @@ import {
   Typography,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import {Link} from "react-router-dom";
 import PianoIcon from '@mui/icons-material/Piano';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import {useDispatch, useSelector} from "react-redux";
 import {selectCartItemsCount} from "./redux/Cart/cart.selectors";
 import {userActions} from "./redux/User/user.actions";
 import {AppDispatch, RootState} from "./type";
-import {useEffect, useState} from "react";
 import socketIOClient from "socket.io-client";
 import {config} from "./config/config";
 
@@ -35,7 +35,7 @@ interface NavbarProps {
 }
 
 const Navbar = (props: NavbarProps) => {
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch<AppDispatch>();
 
   const [numOfConnectedUsers, setNumOfConnectedUsers] = useState(0);
 
@@ -76,14 +76,16 @@ const Navbar = (props: NavbarProps) => {
   const { pages } = { ...props };
 
   const cartTotalItems = useSelector(selectCartItemsCount);
-  const isLoggedIn = useSelector((state: RootState) => state.userState.loggedIn);
+  const isLoggedIn = useSelector(
+    (state: RootState) => state.userState.loggedIn
+  );
   const user = useSelector((state: RootState) => state.userState.user);
 
   return (
-    <AppBar position="static" sx={{marginBottom: "20px"}}>
+    <AppBar position="static" sx={{ marginBottom: "20px" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <PianoIcon/>
+          <PianoIcon />
           <Typography
             variant="h5"
             noWrap
@@ -124,7 +126,7 @@ const Navbar = (props: NavbarProps) => {
             >
               {pages.map((page: Page) => (
                 <MenuItem key={page.name} onClick={handleCloseNavMenu}>
-                  <Link style={{ textDecoration: 'none' }} to={page.path}>
+                  <Link style={{ textDecoration: "none" }} to={page.path}>
                     <Typography textAlign="center">{page.name}</Typography>
                   </Link>
                 </MenuItem>
@@ -141,23 +143,31 @@ const Navbar = (props: NavbarProps) => {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page: Page) => (
-              <Link style={{ textDecoration: 'none' }} key={page.name} to={page.path}>
-                <Button
+              <Link
+                style={{ textDecoration: "none" }}
                 key={page.name}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
+                to={page.path}
               >
-                {page.name}
-              </Button>
+                <Button
+                  key={page.name}
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: "white", display: "block" }}
+                >
+                  {page.name}
+                </Button>
               </Link>
             ))}
           </Box>
           <Box sx={{ flexGrow: 0 }}>
-            <Link style={{ textDecoration: 'inherit', color: 'inherit' }} to='/cart'>
-              <IconButton sx={{ marginRight: "10px" }}
-                  size="large"
-                  aria-label="show cart"
-                  color="inherit"
+            <Link
+              style={{ textDecoration: "inherit", color: "inherit" }}
+              to="/cart"
+            >
+              <IconButton
+                sx={{ marginRight: "10px" }}
+                size="large"
+                aria-label="show cart"
+                color="inherit"
               >
                 <Badge badgeContent={cartTotalItems} color="error">
                   <ShoppingCartIcon />
@@ -185,41 +195,51 @@ const Navbar = (props: NavbarProps) => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {user?.role === 'Admin' &&
-                  <Link style={{ color: 'inherit', textDecoration: 'none' }} to="products/dashboard">
-                    <MenuItem key="Dashboard" onClick={handleCloseUserMenu}>
-                      Dashboard
+              {user?.role === "Admin" && (
+                <Link
+                  style={{ color: "inherit", textDecoration: "none" }}
+                  to="products/dashboard"
+                >
+                  <MenuItem key="Dashboard" onClick={handleCloseUserMenu}>
+                    Dashboard
+                  </MenuItem>
+                </Link>
+              )}
+              {isLoggedIn && (
+                <div>
+                  <Link
+                    style={{ color: "inherit", textDecoration: "none" }}
+                    to="/orders/history"
+                  >
+                    <MenuItem key="OrdersHistory" onClick={handleCloseUserMenu}>
+                      Orders history
                     </MenuItem>
                   </Link>
-              }
-              {isLoggedIn &&
-                  <div>
-                    <Link style={{ color: 'inherit', textDecoration: 'none' }} to="/orders/history">
-                      <MenuItem key="OrdersHistory" onClick={handleCloseUserMenu}>
-                        Orders history
-                      </MenuItem>
-                    </Link>
-                    <MenuItem key="Logout" onClick={handleLogout}>
-                      <Typography>
-                        Logout
-                      </Typography>
+                  <MenuItem key="Logout" onClick={handleLogout}>
+                    <Typography>Logout</Typography>
+                  </MenuItem>
+                </div>
+              )}
+              {!isLoggedIn && (
+                <div>
+                  <Link
+                    style={{ color: "inherit", textDecoration: "none" }}
+                    to="/login"
+                  >
+                    <MenuItem key="Login" onClick={handleCloseUserMenu}>
+                      Login
                     </MenuItem>
-                  </div>
-              }
-              {!isLoggedIn &&
-                  <div>
-                    <Link style={{ color: 'inherit', textDecoration: 'none' }} to="/login">
-                      <MenuItem key="Login" onClick={handleCloseUserMenu}>
-                        Login
-                      </MenuItem>
-                    </Link>
-                    <Link style={{ color: 'inherit', textDecoration: 'none' }} to="/register">
-                      <MenuItem key="Register" onClick={handleCloseUserMenu}>
-                        Register
-                      </MenuItem>
-                    </Link>
-                  </div>
-              }
+                  </Link>
+                  <Link
+                    style={{ color: "inherit", textDecoration: "none" }}
+                    to="/register"
+                  >
+                    <MenuItem key="Register" onClick={handleCloseUserMenu}>
+                      Register
+                    </MenuItem>
+                  </Link>
+                </div>
+              )}
             </Menu>
           </Box>
           <Box sx={{ marginLeft: "20px", display: "flex", flexDirection: "column", alignItems: "center" }}>
