@@ -1,6 +1,7 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import {useEffect, useState} from "react";
+import {Link} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
 import {
   AppBar,
   Avatar,
@@ -16,11 +17,13 @@ import {
   Typography,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import PianoIcon from "@mui/icons-material/Piano";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { selectCartItemsCount } from "./redux/Cart/cart.selectors";
-import { userActions } from "./redux/User/user.actions";
-import { AppDispatch, RootState } from "./type";
+import PianoIcon from '@mui/icons-material/Piano';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import {selectCartItemsCount} from "./redux/Cart/cart.selectors";
+import {userActions} from "./redux/User/user.actions";
+import {AppDispatch, RootState} from "./type";
+import socketIOClient from "socket.io-client";
+import {config} from "./config/config";
 
 interface Page {
   name: string;
@@ -33,6 +36,15 @@ interface NavbarProps {
 
 const Navbar = (props: NavbarProps) => {
   const dispatch = useDispatch<AppDispatch>();
+
+  const [numOfConnectedUsers, setNumOfConnectedUsers] = useState(0);
+
+  useEffect(() => {
+    const socket = socketIOClient(config.apiUrl);
+    socket.on("users", numOfConnectedUsers => {
+      setNumOfConnectedUsers(numOfConnectedUsers);
+    });
+  }, []);
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
@@ -82,7 +94,6 @@ const Navbar = (props: NavbarProps) => {
           >
             Instrumentore
           </Typography>
-
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
@@ -230,6 +241,14 @@ const Navbar = (props: NavbarProps) => {
                 </div>
               )}
             </Menu>
+          </Box>
+          <Box sx={{ marginLeft: "20px", display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <Typography>
+              Active Users
+            </Typography>
+            <Typography>
+              {numOfConnectedUsers}
+            </Typography>
           </Box>
         </Toolbar>
       </Container>

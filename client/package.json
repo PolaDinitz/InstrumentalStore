@@ -36,6 +36,7 @@
     "reselect": "^4.1.5",
     "sass": "^1.49.7",
     "save-dev": "^0.0.1-security",
+    "socket.io-client": "^4.4.1",
     "styled-components": "^5.3.3",
     "typescript": "^4.5.4",
     "web-vitals": "^2.1.2"
