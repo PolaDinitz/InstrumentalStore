@@ -224,7 +224,7 @@ const Navbar = (props: NavbarProps) => {
           </Box>
           <Box sx={{ marginLeft: "20px", display: "flex", flexDirection: "column", alignItems: "center" }}>
             <Typography>
-              Currently connected users
+              Active Users
             </Typography>
             <Typography>
               {numOfConnectedUsers}
