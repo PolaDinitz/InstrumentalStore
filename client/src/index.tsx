@@ -1,18 +1,23 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { ToastContainer } from "react-toastify";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import App from './App';
+import {Provider} from 'react-redux';
+import reportWebVitals from './reportWebVitals';
+import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
+import {PersistGate} from "redux-persist/integration/react";
+import {persistor, store} from "./redux/store";
 import "react-toastify/dist/ReactToastify.min.css";
-import { Provider } from "react-redux";
 import "./index.css";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
-import store from "./redux/store";
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
-      <ToastContainer autoClose={3000} theme="colored" position="bottom-left"/>
+        <PersistGate loading={null} persistor={persistor}>
+            <App />
+            <ToastContainer autoClose={3000} theme='colored' position="bottom-left"/>
+        </PersistGate>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")
