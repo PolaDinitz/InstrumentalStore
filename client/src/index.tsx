@@ -16,7 +16,7 @@ ReactDOM.render(
     <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
             <App />
-            <ToastContainer autoClose={3000} theme='colored' position="bottom-left"/>
+            <ToastContainer autoClose={3000} theme='colored' position="bottom-right"/>
         </PersistGate>
     </Provider>
   </React.StrictMode>,
