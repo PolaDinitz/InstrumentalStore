@@ -8,15 +8,13 @@ import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import {PersistGate} from "redux-persist/integration/react";
 import {persistor, store} from "./redux/store";
-import "react-toastify/dist/ReactToastify.min.css";
-import "./index.css";
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
             <App />
-            <ToastContainer autoClose={3000} theme='colored' position="bottom-left"/>
+            <ToastContainer autoClose={3000} theme='colored' position="bottom-right"/>
         </PersistGate>
     </Provider>
   </React.StrictMode>,

@@ -6,7 +6,7 @@ import cartReducer from './Cart/cart.reducer';
 import productsReducer from './Product/product.reducer';
 import categoryReducer from "./Category/category.reducer";
 import ordersReducer from './Order/order.reducer';
-import { persistStore, persistReducer } from 'redux-persist'
+import {persistReducer, persistStore} from 'redux-persist'
 import storage from 'redux-persist/lib/storage';
 
 const persistConfig = {
