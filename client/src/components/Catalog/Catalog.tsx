@@ -88,7 +88,7 @@ const Catalog = () => {
       <Grid container spacing={4}>
         {!_.isEmpty(filteredProducts) ? filteredProducts.map((product: Product) => (
           <SingleProduct key={product._id} product={product} />
-        )) : <div style={{margin: "30px"}}>Oops, couldn't find any products</div>}
+        )) : <Typography variant="h5" margin="30px">Oops, couldn't find any products</Typography>}
       </Grid>
     </Container>
   );
