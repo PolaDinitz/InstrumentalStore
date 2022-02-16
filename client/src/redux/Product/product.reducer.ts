@@ -13,7 +13,7 @@ const productsReducer: Reducer<ProductsState, AnyAction> = (state = initialState
       };
 
     case productsActionTypes.LOAD_PRODUCTS_SUCCESS:
-      return productsAdapter.upsertMany(state, payload);
+      return productsAdapter.setAll(state, payload);
 
     case productsActionTypes.LOAD_PRODUCTS_FAILURE:
       return {

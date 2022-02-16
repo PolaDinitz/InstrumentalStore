@@ -7,7 +7,7 @@ import {
   Avatar,
   Badge,
   Box,
-  Button,
+  Button, Chip,
   Container,
   IconButton,
   Menu,
@@ -80,6 +80,7 @@ const Navbar = (props: NavbarProps) => {
     (state: RootState) => state.userState.loggedIn
   );
   const user = useSelector((state: RootState) => state.userState.user);
+  const welcomeName = user?.firstName || "guest";
 
   return (
     <AppBar position="static" sx={{ marginBottom: "20px" }}>
@@ -105,7 +106,6 @@ const Navbar = (props: NavbarProps) => {
             >
               <MenuIcon />
             </IconButton>
-
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
@@ -141,6 +141,7 @@ const Navbar = (props: NavbarProps) => {
           >
             Instrumentore
           </Typography>
+          <Chip variant="outlined" sx={{ color: "white" }} label={"Welcome " + welcomeName}/>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page: Page) => (
               <Link

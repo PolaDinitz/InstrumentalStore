@@ -13,12 +13,15 @@ const ordersReducer: Reducer<OrdersState, AnyAction> = (state = initialState,  a
       };
 
     case orderActionTypes.LOAD_ORDERS_BY_EMAIL_SUCCESS:
-      return ordersAdapter.upsertMany(state, payload);
+      return ordersAdapter.setAll(state, payload);
 
     case orderActionTypes.LOAD_ORDERS_BY_EMAIL_FAILURE:
       return {
         ...state
       };
+
+    case orderActionTypes.CLEAR_ORDERS:
+      return ordersAdapter.removeAll(state);
 
     default:
       return state;

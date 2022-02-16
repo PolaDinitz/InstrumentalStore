@@ -29,6 +29,9 @@ const placeOrderSuccessAction = () => {
 const placeOrderFailedAction = (error: Error) => {
   return { type: orderActionTypes.PLACE_ORDER_FAILURE, payload: error };
 };
+const clearOrders = () => {
+  return { type: orderActionTypes.CLEAR_ORDERS };
+};
 
 const loadOrdersByEmail = (email: String) => {
   return (dispatch: AppDispatch) => {
@@ -70,4 +73,5 @@ const placeOrder = (
 export const ordersActions = {
   loadOrdersByEmail,
   placeOrder,
+  clearOrders
 };
