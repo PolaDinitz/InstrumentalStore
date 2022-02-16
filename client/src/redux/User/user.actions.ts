@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { User } from './user.model';
 import { AppDispatch } from '../../type';
 import {cartActions} from "../Cart/cart.actions";
+import {ordersActions} from "../Order/order.actions";
 
 const registerRequestAction = () => { return { type: userActionTypes.REGISTER_REQUEST } }
 const registerSuccessAction = () => { return { type: userActionTypes.REGISTER_SUCCESS } }
@@ -50,6 +51,7 @@ const logout = () => {
         userService.logout();
         dispatch(logoutAction());
         dispatch(cartActions.clearCart());
+        dispatch(ordersActions.clearOrders());
         toast.success("Logout Successfully");
     }
 }
